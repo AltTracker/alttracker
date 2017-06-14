@@ -4,7 +4,7 @@ defmodule Cryptofolio.Web.TradeController do
   alias Cryptofolio.Dashboard
 
   def index(conn, _params) do
-    trades = Dashboard.list_trades()
+    trades = Dashboard.list_trades_with_currency()
     render(conn, "index.html", trades: trades)
   end
 

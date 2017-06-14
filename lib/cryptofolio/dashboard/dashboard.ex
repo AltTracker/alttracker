@@ -9,6 +9,12 @@ defmodule Cryptofolio.Dashboard do
   alias Cryptofolio.Dashboard.Currency
   alias Cryptofolio.Dashboard.Trade
 
+  def list_trades_with_currency do
+    Trade
+    |> preload(:currency)
+    |> Repo.all
+  end
+
   @doc """
   Returns the list of trades.
 

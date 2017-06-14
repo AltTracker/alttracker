@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Amount</th>
+      <th>Currency</th>
       <th>Cost</th>
       <th>Date</th>
 
@@ -11,19 +12,19 @@
     </tr>
   </thead>
   <tbody>
-<%= for trade <- @trades do %>
+  <%= for trade <- @trades do %>
     <tr>
       <td><%= trade.amount %></td>
+      <td><%= trade.currency %></td>
       <td><%= trade.cost %></td>
       <td><%= trade.date %></td>
 
       <td class="text-right">
-        <span><%= link "Show", to: trade_path(@conn, :show, trade), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: trade_path(@conn, :edit, trade), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: trade_path(@conn, :delete, trade), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        <span><%= link "Edit", to: trade_path(@conn, :edit, trade), class: "button" %></span>
+        <span><%= link "Delete", to: trade_path(@conn, :delete, trade), method: :delete, data: [confirm: "Are you sure?"], class: "button button--danger" %></span>
       </td>
     </tr>
-<% end %>
+  <% end %>
   </tbody>
 </table>
 
