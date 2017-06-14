@@ -1,0 +1,6 @@
+<h2>New Trade</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: trade_path(@conn, :create) %>
+
+<span><%= link "Back", to: trade_path(@conn, :index) %></span>

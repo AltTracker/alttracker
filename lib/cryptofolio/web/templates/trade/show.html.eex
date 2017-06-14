@@ -1,0 +1,23 @@
+<h2>Show Trade</h2>
+
+<ul>
+
+  <li>
+    <strong>Amount:</strong>
+    <%= @trade.amount %>
+  </li>
+
+  <li>
+    <strong>Cost:</strong>
+    <%= @trade.cost %>
+  </li>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @trade.date %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: trade_path(@conn, :edit, @trade) %></span>
+<span><%= link "Back", to: trade_path(@conn, :index) %></span>
