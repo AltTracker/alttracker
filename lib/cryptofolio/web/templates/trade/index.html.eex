@@ -1,31 +1,46 @@
-<h2>Listing Trades</h2>
+<div class="dashboard-header">
+  <div class="portfolio-header">
+    <div class="portfolio-header__total">
+      <p class="portfolio-header__title">Your portfolio</p>
+      <h1 class="portfolio-header__main">$3000.00</h1>
+    </div>
+    <div class="portfolio-header__gain-loss">
+      <p class="portfolio-header__title">Today's Gain/Loss</p>
+      <h1 class="portfolio-header__main portfolio-header__main--positive">50%</h1>
+    </div>
+  </div>
+  <div class="dashboard-header__cta">
+    <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
+  </div>
+</div>
 
-<table class="table">
+<table class="coin-transactions-list">
   <thead>
     <tr>
-      <th>Amount</th>
       <th>Currency</th>
-      <th>Cost</th>
-      <th>Date</th>
-
+      <th>Amount</th>
+      <th>Cost (each)</th>
+      <th>Total Cost</th>
+      <th>Current Price</th>
+      <th>Current Value</th>
+      <th>Profit/Loss</th>
+      <th>%</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
   <%= for trade <- @trades do %>
     <tr>
-      <td><%= trade.amount %></td>
       <td><%= trade.currency %></td>
+      <td><%= trade.amount %></td>
       <td><%= trade.cost %></td>
       <td><%= trade.date %></td>
-
-      <td class="text-right">
-        <span><%= link "Edit", to: trade_path(@conn, :edit, trade), class: "button" %></span>
-        <span><%= link "Delete", to: trade_path(@conn, :delete, trade), method: :delete, data: [confirm: "Are you sure?"], class: "button button--danger" %></span>
+      <td class="coin-transactions-list__actions">
+        <%= link "Edit", to: trade_path(@conn, :edit, trade), class: "button" %>
+        <%= link "Delete", to: trade_path(@conn, :delete, trade), method: :delete, data: [confirm: "Are you sure?"], class: "button button--danger" %>
       </td>
     </tr>
   <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Trade", to: trade_path(@conn, :new) %></span>
