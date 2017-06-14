@@ -1,3 +1,5 @@
+const path = require('path')
+
 exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
@@ -20,7 +22,10 @@ exports.config = {
       // }
     },
     stylesheets: {
-      joinTo: "css/app.css"
+      joinTo: "css/app.css",
+      order: {
+        before: [/normalize/]
+      }
     },
     templates: {
       joinTo: "js/app.js"
@@ -47,6 +52,14 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/vendor/]
+    },
+    sass: {
+      options: {
+        includePaths: [
+          path.join(__dirname, 'node_modules'),
+          ...require('bourbon-neat').includePaths
+        ]
+      }
     }
   },
 
@@ -57,6 +70,9 @@ exports.config = {
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    styles: {
+      'normalize.css': ['normalize.css']
+    }
   }
 };

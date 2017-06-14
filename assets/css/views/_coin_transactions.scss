@@ -1,0 +1,66 @@
+@import "neat";
+
+$dashboard-header-grid: (
+  columns: 1,
+  gutter: 0
+);
+
+$dashboard-header-grid--md: (
+  columns: 2,
+  gutter: 0,
+  media: $media-md
+);
+
+.dashboard-header {
+  @include grid-container;
+
+  &__cta {
+    @include grid-column(1, $dashboard-header-grid);
+    @include grid-media($dashboard-header-grid--md) {
+      @include grid-column(1);
+    }
+
+    .button {
+      width: 100%;
+
+      @include grid-media((media: $media-md)) {
+        width: auto;
+      }
+    }
+  }
+}
+
+.portfolio-header {
+  @include grid-container;
+
+  @include grid-column(1, $dashboard-header-grid);
+  @include grid-media($dashboard-header-grid--md) {
+    @include grid-column(1);
+  }
+
+  &__total, &__gain-loss {
+    @include grid-column(6, (gutter: 0));
+  }
+
+  &__title {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
+  &__main {
+    font-size: 30px;
+
+    &--positive {
+      color: $success;
+    }
+  }
+}
+
+.coin-transactions-list {
+  &__actions {
+    text-align: center;
+    .button {
+      margin-bottom: 0;
+    }
+  }
+}

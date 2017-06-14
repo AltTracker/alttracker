@@ -1,0 +1,45 @@
+.navigation {
+  background: #f4f5f6;
+  border-bottom: .1rem solid #d1d1d1;
+  display: block;
+  height: 5.2rem;
+  left: 0;
+  max-width: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+
+  &__title {
+    color: #606c76;
+    display: inline;
+    font-size: 1.6rem;
+    letter-spacing: 0.1rem;
+    line-height: 5.2rem;
+    padding: 0;
+    position: relative;
+    text-decoration: none;
+  }
+
+  &__list {
+    list-style: none;
+    margin-bottom: 0;
+  }
+
+  &__list-item {
+    float: left;
+    margin-bottom: 0;
+    margin-left: 2.5rem;
+    position: relative;
+  }
+
+  &__link {
+    cursor: pointer;
+    display: inline;
+    font-size: 1.6rem;
+    line-height: 5.2rem;
+    padding: 0;
+    text-decoration: none;
+  }
+}

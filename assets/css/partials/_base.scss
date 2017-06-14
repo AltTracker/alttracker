@@ -1,0 +1,21 @@
+$success: green;
+$danger: #D64242;
+
+.cf-header~.container {
+  margin-top: 7.5rem;
+}
+
+.price-value--increase {
+  color: $success;
+  font-weight: 700;
+}
+
+.price-value--decrease {
+  color: $danger;
+  font-weight: 700;
+}
+
+.button--danger.button--danger {
+  border-color: $danger;
+  background-color: $danger;
+}
