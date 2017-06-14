@@ -3,8 +3,9 @@ defmodule Cryptofolio.Dashboard.Trade do
   import Ecto.Changeset
   alias Cryptofolio.Dashboard.Trade
 
-
   schema "trades" do
+    belongs_to :currency, Cryptofolio.Dashboard.Currency
+
     field :amount, :decimal
     field :cost, :decimal
     field :date, :naive_datetime
@@ -16,6 +17,7 @@ defmodule Cryptofolio.Dashboard.Trade do
   def changeset(%Trade{} = trade, attrs) do
     trade
     |> cast(attrs, [:amount, :cost, :date])
-    |> validate_required([:amount, :cost, :date])
+    |> cast_assoc(:currency)
+    |> validate_required([:amount, :cost, :date, :currency_id])
   end
 end

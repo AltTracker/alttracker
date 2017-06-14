@@ -6,6 +6,7 @@ defmodule Cryptofolio.Dashboard do
   import Ecto.Query, warn: false
   alias Cryptofolio.Repo
 
+  alias Cryptofolio.Dashboard.Currency
   alias Cryptofolio.Dashboard.Trade
 
   @doc """
@@ -100,5 +101,9 @@ defmodule Cryptofolio.Dashboard do
   """
   def change_trade(%Trade{} = trade) do
     Trade.changeset(trade, %{})
+  end
+
+  def list_currencies do
+    Repo.all(Currency)
   end
 end
