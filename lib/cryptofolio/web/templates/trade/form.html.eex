@@ -7,7 +7,7 @@
 
   <div class="form-group">
     <%= label f, :currency_id %>
-    <%= select f, :currency_id, @currencies %>
+    <%= select f, :currency_id, @currencies |> Enum.map(&{name_with_symbol(&1), &1.id}) %>
     <%= error_tag f, :currency_id %>
   </div>
 

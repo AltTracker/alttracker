@@ -8,7 +8,7 @@ defmodule Cryptofolio.Dashboard.CurrencyTick do
 
     field :cost_usd, :decimal
     field :cost_btc, :decimal
-    field :last_updated, :naive_datetime
+    field :last_updated, Ecto.DateTime
   end
 
   @doc false

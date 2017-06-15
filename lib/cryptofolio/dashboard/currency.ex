@@ -5,6 +5,9 @@ defmodule Cryptofolio.Dashboard.Currency do
 
 
   schema "currencies" do
+    has_many :currency_ticks, Cryptofolio.Dashboard.CurrencyTick
+    has_many :trades, Cryptofolio.Dashboard.Trade
+
     field :name, :string
     field :symbol, :string
 
