@@ -6,12 +6,17 @@ defmodule Cryptofolio.Dashboard do
   import Ecto.Query, warn: false
   alias Cryptofolio.Repo
 
-  alias Cryptofolio.Dashboard.Currency
   alias Cryptofolio.Dashboard.Trade
+  alias Cryptofolio.Dashboard.Currency
+  alias Cryptofolio.Dashboard.CurrencyTick
 
-  def list_trades_with_currency do
+  def list_trades_with_currency_and_last_tick do
+    # TODO: optimize and query for last tick only
+
     Trade
-    |> preload(:currency)
+    |> join(:inner, [t], _ in assoc(t, :currency))
+    |> join(:left, [_, c], _ in assoc(c, :last_tick))
+    |> preload([_, c, t], [currency: {c, last_tick: t}])
     |> Repo.all
   end
 

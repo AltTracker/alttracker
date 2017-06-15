@@ -16,7 +16,7 @@ defmodule Cryptofolio.Dashboard.Trade do
   @doc false
   def changeset(%Trade{} = trade, attrs) do
     trade
-    |> cast(attrs, [:amount, :cost, :date])
+    |> cast(attrs, [:amount, :cost, :date, :currency_id])
     |> cast_assoc(:currency)
     |> validate_required([:amount, :cost, :date, :currency_id])
   end

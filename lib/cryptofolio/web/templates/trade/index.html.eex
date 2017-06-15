@@ -1,3 +1,5 @@
+<% alias Cryptofolio.Trade %>
+
 <div class="dashboard-header">
   <div class="portfolio-header">
     <div class="portfolio-header__total">
@@ -32,13 +34,25 @@
   <tbody>
   <%= for trade <- @trades do %>
     <tr>
-      <td><%= trade.currency %></td>
+      <td><%= name_with_symbol(trade.currency) %></td>
       <td><%= trade.amount %></td>
       <td><%= trade.cost %></td>
-      <td><%= trade.date %></td>
+      <td><%= Trade.total_cost(trade) %></td>
+      <td><%= trade.currency.last_tick.cost_usd %></td>
+      <td><%= Trade.current_value(trade) %></td>
+      <td>
+        <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
+          <%= Trade.profit_loss(trade) %>
+        </span>
+      </td>
+      <td>
+        <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
+          <%= Decimal.round(Trade.profit_loss_perc(trade), 1) %>%
+        </span>
+      </td>
+      <td></td>
       <td class="coin-transactions-list__actions">
         <%= link "Edit", to: trade_path(@conn, :edit, trade), class: "button" %>
-        <%= link "Delete", to: trade_path(@conn, :delete, trade), method: :delete, data: [confirm: "Are you sure?"], class: "button button--danger" %>
       </td>
     </tr>
   <% end %>
