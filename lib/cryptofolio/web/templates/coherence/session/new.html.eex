@@ -24,8 +24,7 @@
   <% end %>
 
   <div class="form-group">
-    <%= submit dgettext("coherence", "Sign In"), class: "btn btn-primary" %>
-    <%= link dgettext("coherence", "Cancel"), to: Coherence.Config.logged_out_url("/"), class: "btn" %>
+    <%= submit dgettext("coherence", "Sign In"), class: "button button--full-width" %>
   </div>
 
   <div class="form-group">
