@@ -1,39 +1,4 @@
-<div class="dashboard-header">
-  <div class="portfolio-header">
-    <div class="portfolio-header__total">
-      <p class="portfolio-header__title">Your portfolio</p>
-      <h1 class="portfolio-header__main">$3000.00</h1>
-    </div>
-    <div class="portfolio-header__gain-loss">
-      <p class="portfolio-header__title">Today's Gain/Loss</p>
-      <h1 class="portfolio-header__main portfolio-header__main--positive">50%</h1>
-    </div>
-  </div>
-  <div class="dashboard-header__cta">
-    <a class="button float-right" href="#">Add a coin</a>
-  </div>
+<div>
+  <%= link "Register here", to: registration_path(@conn, :new) %>
+  <%= link "Login here", to: session_path(@conn, :new) %>
 </div>
-
-<div id="portfolio-chart" class="portfolio-chart">
-</div>
-
-<table>
-  <thead>
-    <tr>
-      <th>Currency</th>
-      <th>Amount</th>
-      <th>Cost</th>
-      <th>Current Value</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Ripple (XRP)</td>
-      <td>1,950.0</td>
-      <td>$63.00</td>
-      <td>$522.95</td>
-      <td>500%</td>
-    </tr>
-  </tbody>
-</table>

@@ -37,12 +37,14 @@ defmodule Cryptofolio.Web.Router do
   scope "/", Cryptofolio.Web do
     pipe_through :browser
 
-    get "/", TradeController, :index
-    resources "/trades", TradeController
+    get "/", PageController, :index
+    resources "/portfolio", TradeController
   end
 
   scope "/", Cryptofolio.Web do
     pipe_through :protected
+
+    resources "/portfolio", TradeController
   end
 
   # Other scopes may use custom stacks.

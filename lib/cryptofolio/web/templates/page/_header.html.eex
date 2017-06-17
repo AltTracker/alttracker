@@ -1,0 +1,28 @@
+  <header class="cf-header">
+    <nav class="navigation">
+      <section class="container">
+        <a href="/"><h1 class="navigation__title">Folio</h1></a>
+        <ul class="navigation__list float-right">
+          <li class="navigation__list-item">
+            <a class="navigation__link" data-popover="#popover-profile">Profile</a>
+            <div class="popover" id="popover-profile">
+              <ul class="popover-list">
+                <%= if @current_user do %>
+                  <li class="popover-item">
+                    <%= link "Log out", to: session_path(@conn, :delete), method: "delete", class: "popover-link", title: "Log out" %>
+                  </li>
+                <%= else %>
+                  <li class="popover-item">
+                    <%= link "Login", to: session_path(@conn, :new), class: "popover-link", title: "Login" %>
+                  </li>
+                  <li class="popover-item">
+                    <%= link "Register", to: registration_path(@conn, :new), class: "popover-link", title: "Register" %>
+                  </li>
+                <%= end %>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </nav>
+  </header>
