@@ -10,13 +10,20 @@ defmodule Cryptofolio.Dashboard do
   alias Cryptofolio.Dashboard.Currency
   alias Cryptofolio.Dashboard.CurrencyTick
 
-  def list_trades_with_currency_and_last_tick do
+  def list_trades_for_dashboard do
     # TODO: optimize and query for last tick only
 
     Trade
     |> join(:inner, [t], _ in assoc(t, :currency))
     |> join(:left, [_, c], _ in assoc(c, :last_tick))
     |> preload([_, c, t], [currency: {c, last_tick: t}])
+    |> Repo.all
+    |> Enum.map(fn t -> Map.put(t, :current_value, Cryptofolio.Trade.current_value(t)) end)
+  end
+
+  def list_currencies_with_ticks do
+    Currency
+    |> preload(ticks: ^from(t in CurrencyTick, order_by: t.last_updated))
     |> Repo.all
   end
 

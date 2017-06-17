@@ -1,19 +1,39 @@
 <% alias Cryptofolio.Trade %>
 
-<div class="dashboard-header">
-  <div class="portfolio-header">
-    <div class="portfolio-header__total">
-      <p class="portfolio-header__title">Your portfolio</p>
-      <h1 class="portfolio-header__main"><%= format_money(@portfolio.total) %></h1>
+<div class="dashboard">
+  <main class="dashboard__main">
+    <div class="dashboard-header">
+      <div class="portfolio-header">
+        <div class="portfolio-header__total">
+          <p class="portfolio-header__title">Your portfolio</p>
+          <h1 class="portfolio-header__main"><%= format_money(@portfolio.total) %></h1>
+        </div>
+        <div class="portfolio-header__gain-loss">
+          <p class="portfolio-header__title">Today's Gain/Loss</p>
+          <h1 class="portfolio-header__main portfolio-header__main--positive">50%</h1>
+        </div>
+      </div>
+      <div class="dashboard-header__cta">
+        <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
+      </div>
     </div>
-    <div class="portfolio-header__gain-loss">
-      <p class="portfolio-header__title">Today's Gain/Loss</p>
-      <h1 class="portfolio-header__main portfolio-header__main--positive">50%</h1>
+
+    <div
+      id="portfolio-chart"
+      class="portfolio-chart"
+      data-currencies="<%= Poison.encode! @portfolio.currencies %>"
+    >
     </div>
-  </div>
-  <div class="dashboard-header__cta">
-    <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
-  </div>
+  </main>
+  <section class="dashboard__sidebar">
+    <h3>Portfolio</h3>
+    <div
+      id="portfolio-pie"
+      class="portfolio-pie"
+      data-trades="<%= Poison.encode! Trade.drop_ticks(@trades) %>"
+    >
+    </div>
+  </section>
 </div>
 
 <table class="coin-transactions-list">
@@ -39,7 +59,7 @@
       <td><%= format_money(trade.cost) %></td>
       <td><%= format_money(Trade.total_cost(trade)) %></td>
       <td><%= format_money(trade.currency.last_tick.cost_usd) %></td>
-      <td><%= format_money(Trade.current_value(trade)) %></td>
+      <td><%= format_money(trade.current_value) %></td>
       <td>
         <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
           <%= format_money(Trade.profit_loss(trade)) %>

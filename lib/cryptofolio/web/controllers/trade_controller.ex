@@ -5,11 +5,12 @@ defmodule Cryptofolio.Web.TradeController do
   alias Cryptofolio.Dashboard
 
   def index(conn, _params) do
-    trades = Dashboard.list_trades_with_currency_and_last_tick()
+    trades = Dashboard.list_trades_for_dashboard()
     portfolio = %{
       total: trades
         |> Enum.map(&Trade.current_value/1)
-        |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+        |> Enum.reduce(Decimal.new(0), &Decimal.add/2),
+      currencies: Dashboard.list_currencies_with_ticks()
     }
 
     render(conn, "index.html", trades: trades, portfolio: portfolio)

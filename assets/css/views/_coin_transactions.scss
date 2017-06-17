@@ -1,5 +1,33 @@
 @import "neat";
 
+$dashboard: (
+  columns: 1,
+  gutter: 0
+);
+
+$dashboard--md: (
+  columns: 3,
+  media: $media-md
+);
+
+.dashboard {
+  @include grid-container;
+
+  &__main {
+    @include grid-column(1, $dashboard);
+    @include grid-media($dashboard--md) {
+      @include grid-column(2);
+    }
+  }
+
+  &__sidebar {
+    @include grid-column(1, $dashboard);
+    @include grid-media($dashboard--md) {
+      @include grid-column(1);
+    }
+  }
+}
+
 $dashboard-header-grid: (
   columns: 1,
   gutter: 0

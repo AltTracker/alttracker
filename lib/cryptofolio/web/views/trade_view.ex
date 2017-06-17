@@ -1,5 +1,4 @@
 defmodule Cryptofolio.Web.TradeView do
-  import Money
   use Cryptofolio.Web, :view
 
   def format_money(number) do
