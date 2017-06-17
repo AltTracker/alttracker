@@ -4,7 +4,7 @@
   <div class="portfolio-header">
     <div class="portfolio-header__total">
       <p class="portfolio-header__title">Your portfolio</p>
-      <h1 class="portfolio-header__main">$3000.00</h1>
+      <h1 class="portfolio-header__main"><%= format_money(@portfolio.total) %></h1>
     </div>
     <div class="portfolio-header__gain-loss">
       <p class="portfolio-header__title">Today's Gain/Loss</p>
@@ -36,13 +36,13 @@
     <tr>
       <td><%= name_with_symbol(trade.currency) %></td>
       <td><%= trade.amount %></td>
-      <td><%= trade.cost %></td>
-      <td><%= Trade.total_cost(trade) %></td>
-      <td><%= trade.currency.last_tick.cost_usd %></td>
-      <td><%= Trade.current_value(trade) %></td>
+      <td><%= format_money(trade.cost) %></td>
+      <td><%= format_money(Trade.total_cost(trade)) %></td>
+      <td><%= format_money(trade.currency.last_tick.cost_usd) %></td>
+      <td><%= format_money(Trade.current_value(trade)) %></td>
       <td>
         <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
-          <%= Trade.profit_loss(trade) %>
+          <%= format_money(Trade.profit_loss(trade)) %>
         </span>
       </td>
       <td>

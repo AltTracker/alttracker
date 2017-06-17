@@ -1,5 +1,10 @@
 defmodule Cryptofolio.Web.TradeView do
+  import Money
   use Cryptofolio.Web, :view
+
+  def format_money(number) do
+    Money.parse!(Decimal.to_string(number), :USD)
+  end
 
   def name_with_symbol(c) do
     if c do
