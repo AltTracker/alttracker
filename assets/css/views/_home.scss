@@ -1,0 +1,76 @@
+$landing: (
+  columns: 1,
+  gutter: 0
+);
+
+$landing--md: (
+  columns: 3,
+  media: $media-md,
+  gutter: 0
+);
+
+.landing {
+  height: 100%;
+  width: 100%;
+  @include grid-container;
+
+  .landing-intro {
+    @include grid-column(1, $landing);
+    @include grid-media($landing--md) {
+      @include grid-column(2);
+    }
+
+    background: linear-gradient(darken($primary, 15%), $primary);
+    color: white;
+    position: relative;
+
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+
+    &__text {
+    }
+
+    &__inner {
+      margin: 4rem 3rem;
+    }
+
+    &__lead {
+      font-weight: 700;
+    }
+
+    &__sample-graph {
+      opacity: 0.25;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    &__coins {
+      position: absolute;
+      text-align: center;
+      span {
+        opacity: 0.1;
+        line-height: 7rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+  }
+
+  .landing-auth {
+    @include grid-column(1, $landing);
+    @include grid-media($landing--md) {
+      @include grid-column(1);
+    }
+
+    padding: 4rem 3rem;
+  }
+
+  .landing__coin-icon {
+    perspective: 800px;
+    transform-style: preserve-3d;
+    perspective-origin: 50% 50%;
+    font-size: 5rem;
+  }
+}

@@ -1,11 +1,18 @@
 defmodule Cryptofolio.Web.PageController do
   use Cryptofolio.Web, :controller
+  alias Coherence.Config
+  alias Coherence.ControllerHelpers, as: Helpers
 
   def index(conn, _params) do
     if conn.assigns[:current_user] do
       redirect conn, to: trade_path(conn, :index)
     else
-      render conn, "index.html"
+      user_schema = Config.user_schema
+      cs = Helpers.changeset(:registration, user_schema, user_schema.__struct__)
+
+      conn
+      |> put_layout("home.html")
+      |> render("index.html", email: "", changeset: cs)
     end
   end
 end

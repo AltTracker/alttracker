@@ -1,4 +1,26 @@
-<div>
-  <%= link "Register here", to: registration_path(@conn, :new) %>
-  <%= link "Login here", to: session_path(@conn, :new) %>
+<% coins = ["icon-BCN", "icon-BFT-alt", "icon-BTC", "icon-BTCD", "icon-DASH", "icon-DOGE", "icon-ETC-alt", "icon-FLO-alt", "icon-FTC", "icon-GEMZ", "icon-GLD-alt", "icon-GNT-alt", "icon-ICN-alt", "icon-INCNT-alt", "icon-IOC", "icon-LBC-alt", "icon-LDOGE", "icon-LISK-alt", "icon-LTC", "icon-MAID", "icon-MINT-alt", "icon-MONA-alt", "icon-MRC", "icon-MSC", "icon-MTR", "icon-MUE", "icon-NBT", "icon-NEOS-alt", "icon-NEU-alt", "icon-NLG-alt", "icon-NMC", "icon-NOTE", "icon-NVC-alt", "icon-NXT", "icon-OMNI-alt", "icon-OPAL", "icon-PIGGY-alt", "icon-PINK-alt", "icon-PIVX", "icon-POT", "icon-PPC-alt", "icon-QRK", "icon-RBIES-alt", "icon-RBT", "icon-RBY-alt", "icon-RDD", "icon-REP-alt", "icon-RISE-alt", "icon-SAR-alt", "icon-SIA-alt", "icon-SJCX-alt", "icon-SLG-alt", "icon-SLS", "icon-START", "icon-STEEM-alt", "icon-STR", "icon-STRAT-alt", "icon-SWIFT-alt", "icon-TRIG-alt", "icon-UBQ-alt", "icon-UNITY", "icon-VIOR", "icon-VNL-alt", "icon-VRC", "icon-VTC", "icon-WAVES-alt", "icon-XAI", "icon-XBS", "icon-XCP", "icon-XEM", "icon-XMR", "icon-XRP", "icon-XVG-alt", "icon-ZEC-alt"] %>
+
+<div class="landing">
+  <div class="landing-intro">
+    <div id="landing-intro__sample-graph" class="landing-intro__sample-graph"></div>
+    <div class="landing-intro__inner">
+      <div class="landing-intro__coins">
+        <%= for coin <- coins do %>
+          <span class="landing__coin-icon <%= coin %>"></span>
+        <%= end %>
+      </div>
+      <div class="landing-intro__text">
+        <h1 class="landing-intro__lead">Your own Cryptocurrency Profit/Loss Monitor</h1>
+        <h3>Track all your cryptocurrency investments, no matter where it's stored.</h3>
+        <h4>Line graphs, pie charts, email reports for your portfolio, completely <b>free</b></h4>
+        <h4>500+ currencies supported and counting</h4>
+      </div>
+    </div>
+  </div>
+  <div class="landing-auth">
+    <%= render "form.html", changeset: @changeset,
+                            conn: @conn,
+                            label: dgettext("coherence", "Register"), required: [required: ""],
+                            action: registration_path(@conn, :create) %>
+  </div>
 </div>

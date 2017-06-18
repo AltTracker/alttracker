@@ -1,0 +1,248 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('/fonts/icomoon.eot?o7dmgo');
+  src:  url('/fonts/icomoon.eot?o7dmgo#iefix') format('embedded-opentype'),
+    url('/fonts/icomoon.ttf?o7dmgo') format('truetype'),
+    url('/fonts/icomoon.woff?o7dmgo') format('woff'),
+    url('/fonts/icomoon.svg?o7dmgo#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-BCN:before {
+  content: "\e900";
+}
+.icon-BFT-alt:before {
+  content: "\e901";
+}
+.icon-BTC:before {
+  content: "\e902";
+}
+.icon-BTCD:before {
+  content: "\e903";
+}
+.icon-DASH:before {
+  content: "\e904";
+}
+.icon-DOGE:before {
+  content: "\e905";
+}
+.icon-ETC-alt:before {
+  content: "\e906";
+}
+.icon-FLO-alt:before {
+  content: "\e907";
+}
+.icon-FTC:before {
+  content: "\e908";
+}
+.icon-GEMZ:before {
+  content: "\e909";
+}
+.icon-GLD-alt:before {
+  content: "\e90a";
+}
+.icon-GNT-alt:before {
+  content: "\e90b";
+}
+.icon-ICN-alt:before {
+  content: "\e90c";
+}
+.icon-INCNT-alt:before {
+  content: "\e90d";
+}
+.icon-IOC:before {
+  content: "\e90e";
+}
+.icon-LBC-alt:before {
+  content: "\e90f";
+}
+.icon-LDOGE:before {
+  content: "\e910";
+}
+.icon-LISK-alt:before {
+  content: "\e911";
+}
+.icon-LTC:before {
+  content: "\e912";
+}
+.icon-MAID:before {
+  content: "\e913";
+}
+.icon-MINT-alt:before {
+  content: "\e914";
+}
+.icon-MONA-alt:before {
+  content: "\e915";
+}
+.icon-MRC:before {
+  content: "\e916";
+}
+.icon-MSC:before {
+  content: "\e917";
+}
+.icon-MTR:before {
+  content: "\e918";
+}
+.icon-MUE:before {
+  content: "\e919";
+}
+.icon-NBT:before {
+  content: "\e91a";
+}
+.icon-NEOS-alt:before {
+  content: "\e91b";
+}
+.icon-NEU-alt:before {
+  content: "\e91c";
+}
+.icon-NLG-alt:before {
+  content: "\e91d";
+}
+.icon-NMC:before {
+  content: "\e91e";
+}
+.icon-NOTE:before {
+  content: "\e91f";
+}
+.icon-NVC-alt:before {
+  content: "\e920";
+}
+.icon-NXT:before {
+  content: "\e921";
+}
+.icon-OMNI-alt:before {
+  content: "\e922";
+}
+.icon-OPAL:before {
+  content: "\e923";
+}
+.icon-PIGGY-alt:before {
+  content: "\e924";
+}
+.icon-PINK-alt:before {
+  content: "\e925";
+}
+.icon-PIVX:before {
+  content: "\e926";
+}
+.icon-POT:before {
+  content: "\e927";
+}
+.icon-PPC-alt:before {
+  content: "\e928";
+}
+.icon-QRK:before {
+  content: "\e929";
+}
+.icon-RBIES-alt:before {
+  content: "\e92a";
+}
+.icon-RBT:before {
+  content: "\e92b";
+}
+.icon-RBY-alt:before {
+  content: "\e92c";
+}
+.icon-RDD:before {
+  content: "\e92d";
+}
+.icon-REP-alt:before {
+  content: "\e92e";
+}
+.icon-RISE-alt:before {
+  content: "\e92f";
+}
+.icon-SAR-alt:before {
+  content: "\e930";
+}
+.icon-SIA-alt:before {
+  content: "\e931";
+}
+.icon-SJCX-alt:before {
+  content: "\e932";
+}
+.icon-SLG-alt:before {
+  content: "\e933";
+}
+.icon-SLS:before {
+  content: "\e934";
+}
+.icon-START:before {
+  content: "\e935";
+}
+.icon-STEEM-alt:before {
+  content: "\e936";
+}
+.icon-STR:before {
+  content: "\e937";
+}
+.icon-STRAT-alt:before {
+  content: "\e938";
+}
+.icon-SWIFT-alt:before {
+  content: "\e939";
+}
+.icon-TRIG-alt:before {
+  content: "\e93a";
+}
+.icon-UBQ-alt:before {
+  content: "\e93b";
+}
+.icon-UNITY:before {
+  content: "\e93c";
+}
+.icon-VIOR:before {
+  content: "\e93d";
+}
+.icon-VNL-alt:before {
+  content: "\e93e";
+}
+.icon-VRC:before {
+  content: "\e93f";
+}
+.icon-VTC:before {
+  content: "\e940";
+}
+.icon-WAVES-alt:before {
+  content: "\e941";
+}
+.icon-XAI:before {
+  content: "\e942";
+}
+.icon-XBS:before {
+  content: "\e943";
+}
+.icon-XCP:before {
+  content: "\e944";
+}
+.icon-XEM:before {
+  content: "\e945";
+}
+.icon-XMR:before {
+  content: "\e946";
+}
+.icon-XRP:before {
+  content: "\e947";
+}
+.icon-XVG-alt:before {
+  content: "\e948";
+}
+.icon-ZEC-alt:before {
+  content: "\e949";
+}
