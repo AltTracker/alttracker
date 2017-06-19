@@ -8,7 +8,7 @@ defmodule Cryptofolio.Trade do
   def drop_ticks(trade) do
     map = trade
     |> Map.from_struct
-    |> Map.drop([:__meta__, :__struct__, :currencies])
+    |> Map.drop([:__meta__, :__struct__, :currencies, :user])
     currency = map.currency
     |> Map.from_struct
     |> Map.drop([:__meta__, :__struct__])

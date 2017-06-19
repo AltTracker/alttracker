@@ -37,7 +37,8 @@ defmodule Cryptofolio.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:coherence, github: "smpallen99/coherence", ref: "phx-1.3"},
-     {:money, "~> 1.2.1"}]
+     {:money, "~> 1.2.1"},
+     {:canary, "~> 1.1.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

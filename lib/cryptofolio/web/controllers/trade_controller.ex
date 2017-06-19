@@ -4,9 +4,14 @@ defmodule Cryptofolio.Web.TradeController do
   alias Cryptofolio.Trade
   alias Cryptofolio.Dashboard
 
+  import Canary.Plugs
+
+  plug :load_and_authorize_resource, model: Cryptofolio.Dashboard.Trade, only: [:show, :edit, :update, :delete]
+  use Cryptofolio.Web.AuthorizationController
+
   def index(conn, _params) do
     if conn.assigns[:current_user] do
-      trades = Dashboard.list_trades_for_dashboard()
+      trades = Dashboard.list_dashboard_trades_for_user(conn.assigns[:current_user])
       portfolio = %{
         total: trades
           |> Enum.map(&Trade.current_value/1)
@@ -27,7 +32,7 @@ defmodule Cryptofolio.Web.TradeController do
   end
 
   def create(conn, %{"trade" => trade_params}) do
-    case Dashboard.create_trade(trade_params) do
+    case Dashboard.create_user_trade(conn.assigns[:current_user], trade_params) do
       {:ok, trade} ->
         conn
         |> put_flash(:info, "Trade created successfully.")
@@ -43,15 +48,15 @@ defmodule Cryptofolio.Web.TradeController do
     render(conn, "show.html", trade: trade)
   end
 
-  def edit(conn, %{"id" => id}) do
-    trade = Dashboard.get_trade!(id)
+  def edit(conn, %{}) do
+    trade = conn.assigns[:trade]
     changeset = Dashboard.change_trade(trade)
     currencies = Dashboard.list_currencies()
     render(conn, "edit.html", trade: trade, changeset: changeset, currencies: currencies)
   end
 
-  def update(conn, %{"id" => id, "trade" => trade_params}) do
-    trade = Dashboard.get_trade!(id)
+  def update(conn, %{"trade" => trade_params}) do
+    trade = conn.assigns[:trade]
 
     case Dashboard.update_trade(trade, trade_params) do
       {:ok, trade} ->
@@ -63,8 +68,8 @@ defmodule Cryptofolio.Web.TradeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    trade = Dashboard.get_trade!(id)
+  def delete(conn, %{}) do
+    trade = conn.assigns[:trade]
     {:ok, _trade} = Dashboard.delete_trade(trade)
 
     conn

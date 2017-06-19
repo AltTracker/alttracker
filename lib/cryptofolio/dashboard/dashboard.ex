@@ -10,12 +10,13 @@ defmodule Cryptofolio.Dashboard do
   alias Cryptofolio.Dashboard.Currency
   alias Cryptofolio.Dashboard.CurrencyTick
 
-  def list_trades_for_dashboard do
+  def list_dashboard_trades_for_user(user) do
     last_ticks = CurrencyTick
                  |> distinct([t], [t.currency_id])
                  |> order_by([t], [t.currency_id, desc: t.last_updated])
 
     Trade 
+    |> where(user_id: ^user.id)
     |> join(:inner, [t], _ in assoc(t, :currency)) 
     |> join(:left, [_, c], tick in subquery(last_ticks), tick.currency_id == c.id)
     |> select([trade, curr, ticks], {trade, curr, ticks})
@@ -25,7 +26,6 @@ defmodule Cryptofolio.Dashboard do
   end
 
   def build_trade_assocs({trade, curr, tick}) do
-    last_tick = Ecto.build_assoc(curr, :ticks, tick)
     currency = Ecto.build_assoc(trade, :currency, curr)
 
     %Trade{ trade | currency: %Currency{ currency | last_tick: tick } }
@@ -78,8 +78,9 @@ defmodule Cryptofolio.Dashboard do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_trade(attrs \\ %{}) do
-    %Trade{}
+  def create_user_trade(user, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:trades)
     |> Trade.changeset(attrs)
     |> Repo.insert()
   end

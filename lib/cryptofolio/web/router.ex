@@ -43,8 +43,6 @@ defmodule Cryptofolio.Web.Router do
 
   scope "/", Cryptofolio.Web do
     pipe_through :protected
-
-    resources "/portfolio", TradeController
   end
 
   # Other scopes may use custom stacks.

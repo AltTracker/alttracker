@@ -6,6 +6,7 @@ defmodule Cryptofolio.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    has_many :trades, Cryptofolio.Dashboard.Trade
     coherence_schema()
 
     timestamps()
