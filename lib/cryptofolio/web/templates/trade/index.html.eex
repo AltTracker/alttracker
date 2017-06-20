@@ -9,8 +9,10 @@
           <h1 class="portfolio-header__main"><%= format_money(@portfolio.total) %></h1>
         </div>
         <div class="portfolio-header__gain-loss">
-          <p class="portfolio-header__title">Today's Gain/Loss</p>
-          <h1 class="portfolio-header__main portfolio-header__main--positive">50%</h1>
+          <p class="portfolio-header__title">Total Gain/Loss</p>
+          <h1 class="portfolio-header__main portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>">
+            <%= Decimal.round(@portfolio.profit_loss.perc, 0) %>%
+          </h1>
         </div>
       </div>
       <div class="dashboard-header__cta">
@@ -57,7 +59,7 @@
       <td><%= name_with_symbol(trade.currency) %></td>
       <td><%= trade.amount %></td>
       <td><%= format_money(trade.cost) %></td>
-      <td><%= format_money(Trade.total_cost(trade)) %></td>
+      <td><%= format_money(trade.total_cost) %></td>
       <td><%= format_money(trade.currency.cost_usd) %></td>
       <td><%= format_money(trade.current_value) %></td>
       <td>

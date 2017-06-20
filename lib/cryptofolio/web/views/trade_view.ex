@@ -13,6 +13,10 @@ defmodule Cryptofolio.Web.TradeView do
     end
   end
 
+  def class_for_sign(n1) do
+    "#{if Decimal.cmp(n1, Decimal.new(0)) == :lt, do: 'decrease', else: 'increase'}"
+  end
+
   def class_for_value(n1) do
     "price-value--#{if Decimal.cmp(n1, Decimal.new(0)) == :lt, do: 'decrease', else: 'increase'}"
   end

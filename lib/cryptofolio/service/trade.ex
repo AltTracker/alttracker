@@ -20,8 +20,16 @@ defmodule Cryptofolio.Trade do
     Decimal.mult(cost, amount)
   end
 
+  def total_cost(%{ total_cost: total_cost }) do
+    total_cost
+  end
+
   def current_value(%{ amount: amount, currency: %{ cost_usd: cost_usd } }) do
     Decimal.mult(amount, cost_usd)
+  end
+
+  def current_value(%{ current_value: current_value }) do
+    current_value
   end
 
   def profit_loss(trade) do
@@ -30,5 +38,9 @@ defmodule Cryptofolio.Trade do
 
   def profit_loss_perc(trade) do
     Decimal.mult(Decimal.div(profit_loss(trade), total_cost(trade)), Decimal.new(100))
+  end
+
+  def profit_loss_perc(value, cost) do
+    profit_loss_perc(%{ current_value: value, total_cost: cost })
   end
 end

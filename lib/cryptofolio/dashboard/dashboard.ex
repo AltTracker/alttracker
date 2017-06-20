@@ -14,12 +14,20 @@ defmodule Cryptofolio.Dashboard do
 
   def get_portfolio(user) do
     trades = Cryptofolio.Dashboard.list_dashboard_trades_for_user(user)
+    total = trades
+            |> Enum.map(&(Map.get(&1, :current_value)))
+            |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+    cost = trades
+            |> Enum.map(&(Map.get(&1, :total_cost)))
+            |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
 
     %{
       trades: trades,
-      total: trades
-        |> Enum.map(&TradeService.current_value/1)
-        |> Enum.reduce(Decimal.new(0), &Decimal.add/2),
+      total: total,
+      cost: cost,
+      profit_loss: %{
+        perc: TradeService.profit_loss_perc(total, cost)
+      },
       currencies: Enum.map(trades, &(&1.currency))
     }
   end
@@ -46,6 +54,7 @@ defmodule Cryptofolio.Dashboard do
     trade = trade |> Map.put(:currency, currency)
 
     trade
+    |> Map.put(:total_cost, Cryptofolio.Trade.total_cost(trade))
     |> Map.put(:current_value, Cryptofolio.Trade.current_value(trade))
   end
 

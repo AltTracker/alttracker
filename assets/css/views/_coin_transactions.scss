@@ -78,8 +78,12 @@ $dashboard-header-grid--md: (
   &__main {
     font-size: 30px;
 
-    &--positive {
+    &--increase {
       color: $success;
+    }
+
+    &--decrease {
+      color: $danger;
     }
   }
 }
