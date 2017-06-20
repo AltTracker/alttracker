@@ -1,11 +1,12 @@
+$nav-height: 6rem;
+
 .navigation {
   background: #f4f5f6;
   border-bottom: .1rem solid #d1d1d1;
   display: block;
-  height: 5.2rem;
+  height: $nav-height;
   left: 0;
   max-width: 100%;
-  position: fixed;
   right: 0;
   top: 0;
   width: 100%;
@@ -16,7 +17,7 @@
     display: inline;
     font-size: 1.6rem;
     letter-spacing: 0.1rem;
-    line-height: 5.2rem;
+    line-height: $nav-height;
     padding: 0;
     position: relative;
     text-decoration: none;
@@ -38,7 +39,7 @@
     cursor: pointer;
     display: inline;
     font-size: 1.6rem;
-    line-height: 5.2rem;
+    line-height: $nav-height;
     padding: 0;
     text-decoration: none;
   }
