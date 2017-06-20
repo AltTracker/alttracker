@@ -1,16 +1,67 @@
+import R from 'ramda'
 import Highcharts from 'highcharts/highstock' 
 import theme from '../modules/charts/theme' 
- 
+
 const chart = document.getElementById('portfolio-chart')
 const chartData = JSON.parse(chart.dataset.currencies)
 
-const seriesData = (
-  chartData.map(({ id, name, symbol, ticks }) => ({
-    id,
-    name: `${name} (${symbol})`,
-    data: ticks.map(({ cost_usd, last_updated }) => ([last_updated * 1000, parseFloat(cost_usd)]))
-  }))
-)
+Highcharts.setOptions(theme)
+const portchart = Highcharts.stockChart('portfolio-chart', {
+  chart: {
+    events: {
+      load: getSeriesData
+    }
+  },
+
+  legend: {
+    enabled: true
+  },
+
+  rangeSelector: {
+    selected: 1
+  },
+
+  tooltip: {
+    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>${point.y}</b><br/>'
+  },
+
+  series: []
+})
+ 
+
+async function getSeriesData () {
+  await Promise.all(
+    chartData.map(async ({ name, symbol }) => {
+      try {
+        const getTicks = R.pipe(
+          JSON.parse,
+          R.prop('ticks'),
+          R.map(({ time, high }) => ([time * 1000, high]))
+        )
+
+        const resp = await fetch(`/api/coin_daily_history/${symbol}`)
+        const curr = await resp.text()
+
+        const displayName = `${name} (${symbol})`
+
+        portchart.addAxis({
+          id: displayName,
+          title: {
+            text: `${name}`
+          },
+          visible: false
+        })
+        portchart.addSeries({
+          name: displayName ,
+          data: getTicks(curr),
+          yAxis: displayName
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
+  )
+}
 
 const pie = document.getElementById('portfolio-pie')
 const pieData = JSON.parse(pie.dataset.trades)
@@ -22,24 +73,6 @@ const pieSeriesData = (
     y: parseFloat(current_value)
   }))
 )
-
-Highcharts.setOptions(theme)
-Highcharts.stockChart('portfolio-chart', {
-  legend: {
-    enabled: true
-  },
-
-  rangeSelector: {
-    selected: 1
-  },
-
-  tooltip: {
-    valueDecimals: 2,
-    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>${point.y}</b><br/>'
-  },
-
-  series: seriesData
-})
 
 Highcharts.chart('portfolio-pie', {
   title: false,

@@ -14,6 +14,7 @@ defmodule Cryptofolio.Application do
       supervisor(Cryptofolio.Web.Endpoint, []),
       # Start your own worker by calling: Cryptofolio.Worker.start_link(arg1, arg2, arg3)
       # worker(Cryptofolio.Worker, [arg1, arg2, arg3]),
+      supervisor(ConCache, [[], [name: :marketcap]]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

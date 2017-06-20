@@ -17,7 +17,7 @@ defmodule Cryptofolio.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Cryptofolio.Application, []},
-     extra_applications: [:logger, :runtime_tools, :coherence]]
+     extra_applications: [:logger, :runtime_tools, :con_cache, :coherence, :httpoison]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,6 +36,8 @@ defmodule Cryptofolio.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
+     {:con_cache, "~> 0.12.0"},
+     {:httpoison, "~> 0.11.1"},
      {:coherence, github: "smpallen99/coherence", ref: "phx-1.3"},
      {:money, "~> 1.2.1"},
      {:canary, "~> 1.1.1"}]

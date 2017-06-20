@@ -45,8 +45,9 @@ defmodule Cryptofolio.Web.Router do
     pipe_through :protected
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Cryptofolio.Web do
-  #   pipe_through :api
-  # end
+  scope "/api", Cryptofolio.Web do
+    pipe_through :api
+
+    get "/coin_daily_history/:symbol", MarketcapController, :coin_daily_history
+  end
 end
