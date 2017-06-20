@@ -30,8 +30,10 @@ const portchart = Highcharts.stockChart('portfolio-chart', {
  
 
 async function getSeriesData () {
+  const uniqChartData = R.uniqBy(R.prop('symbol'))(chartData)
+
   await Promise.all(
-    chartData.map(async ({ name, symbol }) => {
+    uniqChartData.map(async ({ name, symbol }) => {
       try {
         const getTicks = R.pipe(
           JSON.parse,
