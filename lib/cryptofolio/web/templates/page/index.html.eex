@@ -3,17 +3,25 @@
 <div class="landing">
   <div class="landing-intro">
     <div id="landing-intro__sample-graph" class="landing-intro__sample-graph"></div>
+    <div class="stripes">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <div class="landing-intro__inner">
-      <div class="landing-intro__coins">
-        <%= for coin <- coins do %>
-          <span class="landing__coin-icon <%= coin %>"></span>
-        <%= end %>
-      </div>
       <div class="landing-intro__text">
         <h1 class="landing-intro__lead">Your own Cryptocurrency Profit/Loss Monitor</h1>
         <h3>Track all your cryptocurrency investments, no matter where it's stored.</h3>
         <h4>Line graphs, pie charts, email reports for your portfolio, completely <b>free</b></h4>
         <h4>500+ currencies supported and counting</h4>
+        <div class="landing-intro__cta-container">
+          <%= link "View Live Demo", to: "#", class: "button landing-intro__cta-button" %>
+        </div>
+      </div>
+      <div class="landing-intro__coins">
+        <%= for coin <- coins do %>
+          <span class="landing__coin-icon <%= coin %>"></span>
+        <%= end %>
       </div>
     </div>
   </div>

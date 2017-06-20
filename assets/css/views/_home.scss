@@ -20,7 +20,7 @@ $landing--md: (
       @include grid-column(2);
     }
 
-    background: linear-gradient(darken($primary, 15%), $primary);
+    background: linear-gradient(darken($primary, 15%), $primary, darken($primary, 5%) 80%, $primary);
     color: white;
     position: relative;
 
@@ -29,9 +29,26 @@ $landing--md: (
     overflow: hidden;
 
     &__text {
+      position: absolute;
+      z-index: 2;
+      @include grid-media($landing--md) {
+        margin-top: 4rem;
+      }
+    }
+
+    &__cta-button {
+      color: $primary;
+      background-color: white;
+      transition: transform .15s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
+      }
     }
 
     &__inner {
+      position: relative;
       margin: 4rem 3rem;
     }
 
@@ -72,5 +89,46 @@ $landing--md: (
     transform-style: preserve-3d;
     perspective-origin: 50% 50%;
     font-size: 5rem;
+  }
+
+  .stripes {
+    position: absolute;
+    transform: skewY(-12deg);
+    display: grid;
+    grid: repeat(5, 200px) / repeat(10, 1fr);
+    height: 100%;
+    width: 100%;
+  }
+
+  .stripes :nth-child(1) {
+    grid-column: span 3;
+    background: linear-gradient(
+      100grad,
+      rgba(lighten($primary, 15%), 0.4),
+      rgba(lighten($primary, 15%), .15) 20%,
+      rgba($primary, 0)
+    );
+  }
+
+  .stripes :nth-child(2) {
+    grid-area: 2 / span 2 / auto / -1;
+    background: linear-gradient(100grad,rgba(0,119,204,0),rgba(0,119,204,.05) 40%,rgba(0,119,204,.35));
+    background: linear-gradient(
+      100grad,
+      rgba(lighten($primary, 15%), 0),
+      rgba(lighten($primary, 15%), 0.05) 40%,
+      rgba($primary, 0.35)
+    );
+  }
+
+  .stripes :nth-child(3) {
+    background: linear-gradient(
+      100grad,
+      rgba(lighten($primary, 15%), 0.4),
+      rgba(lighten($primary, 15%), .15) 20%,
+      rgba($primary, 0)
+    );
+    grid-row: 3;
+    grid-column: span 5;
   }
 }
