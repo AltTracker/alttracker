@@ -20,8 +20,8 @@ defmodule Cryptofolio.Trade do
     Decimal.mult(cost, amount)
   end
 
-  def current_value(%{ amount: amount, currency: %{ last_tick: last_tick } }) do
-    Decimal.mult(amount, last_tick.cost_usd)
+  def current_value(%{ amount: amount, currency: %{ cost_usd: cost_usd } }) do
+    Decimal.mult(amount, cost_usd)
   end
 
   def profit_loss(trade) do

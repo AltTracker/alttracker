@@ -30,7 +30,7 @@
     <div
       id="portfolio-pie"
       class="portfolio-pie"
-      data-trades="<%= Poison.encode! Trade.drop_ticks(@trades) %>"
+      data-trades="<%= Poison.encode! Trade.drop_ticks(@portfolio.trades) %>"
     >
     </div>
   </section>
@@ -52,13 +52,13 @@
     </tr>
   </thead>
   <tbody>
-  <%= for trade <- @trades do %>
+  <%= for trade <- @portfolio.trades do %>
     <tr>
       <td><%= name_with_symbol(trade.currency) %></td>
       <td><%= trade.amount %></td>
       <td><%= format_money(trade.cost) %></td>
       <td><%= format_money(Trade.total_cost(trade)) %></td>
-      <td><%= format_money(trade.currency.last_tick.cost_usd) %></td>
+      <td><%= format_money(trade.currency.cost_usd) %></td>
       <td><%= format_money(trade.current_value) %></td>
       <td>
         <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">

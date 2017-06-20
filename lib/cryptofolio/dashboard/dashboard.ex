@@ -6,23 +6,47 @@ defmodule Cryptofolio.Dashboard do
   import Ecto.Query, warn: false
   alias Cryptofolio.Repo
 
+  alias Cryptofolio.Trade, as: TradeService
+  alias Cryptofolio.Marketcap
   alias Cryptofolio.Dashboard.Trade
   alias Cryptofolio.Dashboard.Currency
   alias Cryptofolio.Dashboard.CurrencyTick
+
+  def get_portfolio(user) do
+    trades = Cryptofolio.Dashboard.list_dashboard_trades_for_user(user)
+
+    %{
+      trades: trades,
+      total: trades
+        |> Enum.map(&TradeService.current_value/1)
+        |> Enum.reduce(Decimal.new(0), &Decimal.add/2),
+      currencies: Enum.map(trades, &(&1.currency))
+    }
+  end
 
   def list_dashboard_trades_for_user(user) do
     last_ticks = CurrencyTick
                  |> distinct([t], [t.currency_id])
                  |> order_by([t], [t.currency_id, desc: t.last_updated])
 
-    Trade 
+    Trade
     |> where(user_id: ^user.id)
     |> join(:inner, [t], _ in assoc(t, :currency)) 
-    |> join(:left, [_, c], tick in subquery(last_ticks), tick.currency_id == c.id)
-    |> select([trade, curr, ticks], {trade, curr, ticks})
+    |> select([trade, curr], {trade, curr})
     |> Repo.all
-    |> Enum.map(&Cryptofolio.Dashboard.build_trade_assocs/1)
-    |> Enum.map(fn t -> Map.put(t, :current_value, Cryptofolio.Trade.current_value(t)) end) 
+    |> Enum.map(&Cryptofolio.Dashboard.add_current_value_assocs/1)
+  end
+
+  def add_current_value_assocs({trade, curr}) do
+    currency = trade
+               |> Ecto.build_assoc(:currency, curr)
+               |> Map.put(:cost_usd, Marketcap.get_coin_price(curr.symbol))
+               |> Map.drop([:last_tick])
+
+    trade = trade |> Map.put(:currency, currency)
+
+    trade
+    |> Map.put(:current_value, Cryptofolio.Trade.current_value(trade))
   end
 
   def build_trade_assocs({trade, curr, tick}) do

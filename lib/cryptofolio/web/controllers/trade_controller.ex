@@ -11,15 +11,9 @@ defmodule Cryptofolio.Web.TradeController do
 
   def index(conn, _params) do
     if conn.assigns[:current_user] do
-      trades = Dashboard.list_dashboard_trades_for_user(conn.assigns[:current_user])
-      portfolio = %{
-        total: trades
-          |> Enum.map(&Trade.current_value/1)
-          |> Enum.reduce(Decimal.new(0), &Decimal.add/2),
-        currencies: Enum.map(trades, &(&1.currency))
-      }
+      portfolio = Dashboard.get_portfolio(conn.assigns[:current_user])
 
-      render(conn, "index.html", trades: trades, portfolio: portfolio)
+      render(conn, "index.html", portfolio: portfolio)
     else
       redirect conn, to: "/"
     end
