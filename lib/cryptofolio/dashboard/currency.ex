@@ -3,7 +3,7 @@ defmodule Cryptofolio.Dashboard.Currency do
   import Ecto.Changeset
   alias Cryptofolio.Dashboard.Currency
 
-  @derive {Poison.Encoder, except: [:__meta__, :last_tick, :trades, :inserted_at, :updated_at]}
+  @derive {Poison.Encoder, except: [:__meta__, :last_tick, :trades, :ticks, :inserted_at, :updated_at]}
   schema "currencies" do
     has_one :last_tick, Cryptofolio.Dashboard.CurrencyTick
     has_many :ticks, Cryptofolio.Dashboard.CurrencyTick

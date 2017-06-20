@@ -31,12 +31,6 @@ defmodule Cryptofolio.Dashboard do
     %Trade{ trade | currency: %Currency{ currency | last_tick: tick } }
   end
 
-  def list_currencies_with_ticks do
-    Currency
-    |> preload(ticks: ^from(t in CurrencyTick, order_by: t.last_updated))
-    |> Repo.all
-  end
-
   @doc """
   Returns the list of trades.
 

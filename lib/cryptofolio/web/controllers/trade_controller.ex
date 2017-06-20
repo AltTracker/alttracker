@@ -16,7 +16,7 @@ defmodule Cryptofolio.Web.TradeController do
         total: trades
           |> Enum.map(&Trade.current_value/1)
           |> Enum.reduce(Decimal.new(0), &Decimal.add/2),
-        currencies: Dashboard.list_currencies_with_ticks()
+        currencies: Enum.map(trades, &(&1.currency))
       }
 
       render(conn, "index.html", trades: trades, portfolio: portfolio)
