@@ -37,7 +37,13 @@ defmodule Cryptofolio.Trade do
   end
 
   def profit_loss_perc(trade) do
-    Decimal.mult(Decimal.div(profit_loss(trade), total_cost(trade)), Decimal.new(100))
+    total_cost = total_cost(trade)
+
+    if Decimal.cmp(total_cost, Decimal.new(0)) != :eq do
+      Decimal.mult(Decimal.div(profit_loss(trade), total_cost), Decimal.new(100))
+    else
+      Decimal.new(0)
+    end
   end
 
   def profit_loss_perc(value, cost) do
