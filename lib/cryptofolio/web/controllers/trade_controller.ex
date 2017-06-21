@@ -21,8 +21,11 @@ defmodule Cryptofolio.Web.TradeController do
 
   def new(conn, _params) do
     changeset = Dashboard.change_trade(%Cryptofolio.Dashboard.Trade{})
-    currencies = Dashboard.list_currencies()
-    render(conn, "new.html", changeset: changeset, currencies: currencies)
+    case Dashboard.list_currencies() do
+      {:ok, currencies} ->
+        conn
+        |> render("new.html", changeset: changeset, currencies: currencies)
+    end
   end
 
   def create(conn, %{"trade" => trade_params}) do
@@ -32,7 +35,7 @@ defmodule Cryptofolio.Web.TradeController do
         |> put_flash(:info, "Trade created successfully.")
         |> redirect(to: trade_path(conn, :show, trade))
       {:error, %Ecto.Changeset{} = changeset} ->
-        currencies = Dashboard.list_currencies()
+        {:ok, currencies} = Dashboard.list_currencies()
         render(conn, "new.html", changeset: changeset, currencies: currencies)
     end
   end
@@ -45,8 +48,11 @@ defmodule Cryptofolio.Web.TradeController do
   def edit(conn, %{}) do
     trade = conn.assigns[:trade]
     changeset = Dashboard.change_trade(trade)
-    currencies = Dashboard.list_currencies()
-    render(conn, "edit.html", trade: trade, changeset: changeset, currencies: currencies)
+    case Dashboard.list_currencies() do
+      {:ok, currencies} ->
+        conn
+        |> render("edit.html", trade: trade, changeset: changeset, currencies: currencies)
+    end
   end
 
   def update(conn, %{"trade" => trade_params}) do

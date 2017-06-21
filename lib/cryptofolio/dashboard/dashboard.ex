@@ -160,6 +160,6 @@ defmodule Cryptofolio.Dashboard do
   end
 
   def list_currencies do
-    Repo.all(Currency)
+    Marketcap.list_coins()
   end
 end
