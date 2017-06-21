@@ -161,6 +161,8 @@ defmodule Cryptofolio.Dashboard do
   end
 
   def list_currencies do
-    Marketcap.list_coins()
+    Currency
+    |> order_by(:name)
+    |> Repo.all
   end
 end

@@ -11,35 +11,19 @@ defmodule Cryptofolio.Marketcap do
   The boundary for the Marketcap system.
   """
 
+  alias Cryptofolio.Repo
+
   alias Cryptofolio.Marketcap.Error
+  alias Cryptofolio.Marketcap.Currency
+
   def list_coins() do 
     ConCache.get_or_store(:marketcap, :coins, fn () ->
-      with {:ok, req} <- HTTPoison.get("https://www.cryptocompare.com/api/data/coinlist/"),
-           {:ok, json} <- Poison.decode(req.body),
-           {:ok, coins} <- extract_coins_from_coinlist(json) do
+      with {:ok, coins} <- Repo.all(Cryptofolio.Marketcap.Currency) do
         %ConCache.Item{ttl: :timer.hours(24), value: {:ok, coins}}
       else {_, error} ->
         %ConCache.Item{ttl: 0, value: {:error, error}}
       end
     end)
-  end
-
-  defp extract_coins_from_coinlist(%{ "Response" => "Success", "Data" => data }) do
-    coins = data
-            |> Enum.map(fn { _, coin } ->
-                %{
-                  id: coin["Id"],
-                  name: coin["CoinName"],
-                  symbol: coin["Name"],
-                  image_url: coin["ImageUrl"]
-                }
-               end)
-            |> Enum.sort(&(&1.name <= &2.name))
-    {:ok, coins}
-  end
-
-  defp extract_coins_from_coinlist(_) do
-    {:error, :api_error}
   end
 
   def get_coin_price(symbol \\ "BTC") do
