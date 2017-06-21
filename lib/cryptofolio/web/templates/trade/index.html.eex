@@ -1,25 +1,34 @@
 <% alias Cryptofolio.Trade %>
 
+<% Decimal.round(@portfolio.profit_loss.perc, 0) %>
 <div class="dashboard">
-  <main class="dashboard__main">
-    <div class="dashboard-header">
+  <div class="dashboard-header">
+    <div class="dashboard-header__portfolio">
       <div class="portfolio-header">
-        <div class="portfolio-header__total">
-          <p class="portfolio-header__title">Your portfolio</p>
-          <h1 class="portfolio-header__main"><%= format_money(@portfolio.total) %></h1>
+        <div class="portfolio-header__item">
+          <div class="portfolio-header__title">Your Portfolio</div>
+          <h1 class="portfolio-header__main">
+            <%= format_money(@portfolio.total) %>
+          </h1>
         </div>
-        <div class="portfolio-header__gain-loss">
-          <p class="portfolio-header__title">Total Gain/Loss</p>
-          <h1 class="portfolio-header__main portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>">
-            <%= Decimal.round(@portfolio.profit_loss.perc, 0) %>%
+        <div class="portfolio-header__item">
+          <div class="portfolio-header__title">Today's Gain/Loss</div>
+          <h1
+            class="
+              portfolio-header__main
+              portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>
+            "
+          >
+            <%= format_money(Decimal.round(@portfolio.profit_loss.value, 2)) %>
           </h1>
         </div>
       </div>
-      <div class="dashboard-header__cta">
-        <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
-      </div>
     </div>
-
+    <div class="dashboard-header__cta">
+      <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
+    </div>
+  </div>
+  <main class="dashboard__main">
     <div
       id="portfolio-chart"
       class="portfolio-chart"
@@ -28,7 +37,6 @@
     </div>
   </main>
   <section class="dashboard__sidebar">
-    <h3>Portfolio</h3>
     <div
       id="portfolio-pie"
       class="portfolio-pie"

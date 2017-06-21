@@ -36,6 +36,10 @@ defmodule Cryptofolio.Trade do
     Decimal.sub(current_value(trade), total_cost(trade))
   end
 
+  def profit_loss(value, cost) do
+    profit_loss(%{ current_value: value, total_cost: cost })
+  end
+
   def profit_loss_perc(trade) do
     total_cost = total_cost(trade)
 

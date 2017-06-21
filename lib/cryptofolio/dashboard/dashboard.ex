@@ -26,6 +26,7 @@ defmodule Cryptofolio.Dashboard do
       total: total,
       cost: cost,
       profit_loss: %{
+        value: TradeService.profit_loss(total, cost),
         perc: TradeService.profit_loss_perc(total, cost)
       },
       currencies: Enum.map(trades, &(&1.currency))

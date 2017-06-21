@@ -64,7 +64,11 @@ defmodule Cryptofolio.Web.TradeController do
         |> put_flash(:info, "Trade updated successfully.")
         |> redirect(to: trade_path(conn, :show, trade))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", trade: trade, changeset: changeset)
+        case Dashboard.list_currencies() do
+          {:ok, currencies} ->
+            conn
+            |> render("edit.html", trade: trade, changeset: changeset, currencies: currencies)
+        end
     end
   end
 

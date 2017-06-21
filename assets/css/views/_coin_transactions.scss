@@ -34,13 +34,20 @@ $dashboard-header-grid: (
 );
 
 $dashboard-header-grid--md: (
-  columns: 2,
+  columns: 3,
   gutter: 0,
   media: $media-md
 );
 
 .dashboard-header {
   @include grid-container;
+
+  &__portfolio {
+    @include grid-column(1, $dashboard-header-grid);
+    @include grid-media($dashboard-header-grid--md) {
+      @include grid-column(2);
+    }
+  }
 
   &__cta {
     @include grid-column(1, $dashboard-header-grid);
@@ -59,24 +66,37 @@ $dashboard-header-grid--md: (
 }
 
 .portfolio-header {
-  @include grid-container;
+  width: auto;
 
-  @include grid-column(1, $dashboard-header-grid);
-  @include grid-media($dashboard-header-grid--md) {
-    @include grid-column(1);
+  &, td, tr {
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
   }
 
-  &__total, &__gain-loss {
-    @include grid-column(6, (gutter: 0));
+  &__item {
+    margin-bottom: 1.5rem;
+    @include grid-media($dashboard-header-grid--md) {
+      display: inline-block;
+      padding-right: 1rem;
+    }
   }
 
   &__title {
+    padding: 0 4px 0 0;
     font-size: 14px;
     margin-bottom: 0;
   }
 
+  &__values {
+    td {
+      padding: 0 28px 10px 0;
+    }
+  }
+
   &__main {
     font-size: 30px;
+    margin-bottom: 0;
 
     &--increase {
       color: $success;
