@@ -1386,6 +1386,10 @@ findup-sync@^0.4.2:
     micromatch "^2.3.7"
     resolve-dir "^0.1.0"
 
+flatpickr@^3.0.5-1:
+  version "3.0.5-1"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.5-1.tgz#c642991b71f8a404ec45e47e03dbf72c48f8b622"
+
 fn-args@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fn-args/-/fn-args-1.0.0.tgz#974dafa1aeac4ac7c21fa09cc3b80f650106ed32"

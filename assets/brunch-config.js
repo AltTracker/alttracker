@@ -24,7 +24,7 @@ exports.config = {
     stylesheets: {
       joinTo: "css/app.css",
       order: {
-        before: [/normalize/]
+        before: [/normalize/, /flatpickr/]
       }
     },
     templates: {
@@ -72,7 +72,8 @@ exports.config = {
   npm: {
     enabled: true,
     styles: {
-      'normalize.css': ['normalize.css']
+      'normalize.css': ['normalize.css'],
+      'flatpickr': ['dist/flatpickr.css']
     }
   }
 };
