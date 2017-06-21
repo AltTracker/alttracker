@@ -25,14 +25,17 @@ defmodule Cryptofolio.Marketcap do
   end
 
   defp extract_coins_from_coinlist(%{ "Response" => "Success", "Data" => data }) do
-    {:ok, Enum.map(data, fn { _, coin } ->
-      %{
-        id: coin["Id"],
-        name: coin["CoinName"],
-        symbol: coin["Name"],
-        image_url: coin["ImageUrl"]
-      }
-    end)}
+    coins = data
+            |> Enum.map(fn { _, coin } ->
+                %{
+                  id: coin["Id"],
+                  name: coin["CoinName"],
+                  symbol: coin["Name"],
+                  image_url: coin["ImageUrl"]
+                }
+               end)
+            |> Enum.sort(&(&1.name <= &2.name))
+    {:ok, coins}
   end
 
   defp extract_coins_from_coinlist(_) do
