@@ -13,17 +13,10 @@ defmodule Cryptofolio.Marketcap do
 
   alias Cryptofolio.Repo
 
-  alias Cryptofolio.Marketcap.Error
   alias Cryptofolio.Marketcap.Currency
 
   def list_coins() do 
-    ConCache.get_or_store(:marketcap, :coins, fn () ->
-      with {:ok, coins} <- Repo.all(Cryptofolio.Marketcap.Currency) do
-        %ConCache.Item{ttl: :timer.hours(24), value: {:ok, coins}}
-      else {_, error} ->
-        %ConCache.Item{ttl: 0, value: {:error, error}}
-      end
-    end)
+    Currency |> Repo.all
   end
 
   def get_coin_price(symbol \\ "BTC") do
@@ -44,31 +37,27 @@ defmodule Cryptofolio.Marketcap do
   def update_coin_prices() do
     root = "https://min-api.cryptocompare.com/data/price"
 
-    with {:ok, coins} <- list_coins() do
-      symbols = coins
-      |> Enum.pluck(:symbol)
+    symbols = list_coins()
+    |> Enum.map(& &1.symbol)
 
-      coins = symbols
-      |> (fn(list) -> ["USD" | list] end).()
-      |> Enum.join(",")
+    coins = symbols
+    |> (fn(list) -> ["USD" | list] end).()
+    |> Enum.join(",")
 
-      query = URI.encode_query(fsym: "USD", tsyms: coins)
+    query = URI.encode_query(fsym: "USD", tsyms: coins)
 
-      url = "#{root}?#{query}"
+    url = "#{root}?#{query}"
 
-      with {:ok, req} <- HTTPoison.get(url),
-           {:ok, json} <- Poison.decode(req.body),
-           {:ok, data} <- extract_coin_prices_from_api(json) do
-        Enum.each(data, fn {k, v} ->
-          ConCache.get_or_store(:marketcap, "coin:price##{k}", fn () ->
-            Decimal.div(Decimal.new(1), Decimal.new(v))
-          end)
+    with {:ok, req} <- HTTPoison.get(url),
+         {:ok, json} <- Poison.decode(req.body),
+         {:ok, data} <- extract_coin_prices_from_api(json) do
+      Enum.each(data, fn {k, v} ->
+        ConCache.get_or_store(:marketcap, "coin:price##{k}", fn () ->
+          Decimal.div(Decimal.new(1), Decimal.new(v))
         end)
-      else {_, error} ->
-        %ConCache.Item{ttl: 0, value: {:error, error}}
-      end
-    else _ ->
-      {:error, %Error{reason: :internal_error}}
+      end)
+    else {_, error} ->
+      %ConCache.Item{ttl: 0, value: {:error, error}}
     end
   end
 
