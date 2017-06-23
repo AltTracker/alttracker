@@ -56,6 +56,7 @@ $nav-height: 6rem;
   position: absolute;
   top: 94%;
   transform: translateX(-50%);
+  z-index: 2;
 
   &.popover-open {
     display: block;
