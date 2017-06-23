@@ -6,7 +6,7 @@ defmodule Cryptofolio.Web.TradeView do
   end
 
   def format_money(number) do
-    Money.parse!(Decimal.to_string(number), %{ symbol: "USD", conversion: 1 })
+    format_money(Decimal.to_string(number), %{ symbol: "USD", conversion: 1 })
   end
 
   def name_with_symbol(c) do
