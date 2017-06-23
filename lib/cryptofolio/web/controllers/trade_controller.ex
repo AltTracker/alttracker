@@ -1,7 +1,6 @@
 defmodule Cryptofolio.Web.TradeController do
   use Cryptofolio.Web, :controller
 
-  alias Cryptofolio.Trade
   alias Cryptofolio.Dashboard
 
   import Canary.Plugs
@@ -10,10 +9,13 @@ defmodule Cryptofolio.Web.TradeController do
   use Cryptofolio.Web.AuthorizationController
 
   def index(conn, _params) do
-    if conn.assigns[:current_user] do
-      portfolio = Dashboard.get_portfolio(conn.assigns[:current_user])
+    user = conn.assigns[:current_user]
 
-      render(conn, "index.html", portfolio: portfolio)
+    if user do
+      portfolio = Dashboard.get_portfolio(user)
+      fiat_exchange = Dashboard.get_fiat_exchange(user)
+
+      render(conn, "index.html", portfolio: portfolio, fiat: fiat_exchange)
     else
       redirect conn, to: "/"
     end

@@ -1,11 +1,13 @@
 defmodule Cryptofolio.User do
   @moduledoc false
   use Ecto.Schema
+  import Ecto.Changeset
   use Coherence.Schema
 
   schema "users" do
     field :name, :string
     field :email, :string
+    belongs_to :fiat, Cryptofolio.Schema.Fiat
     has_many :trades, Cryptofolio.Dashboard.Trade
     coherence_schema()
 
@@ -19,6 +21,12 @@ defmodule Cryptofolio.User do
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> validate_coherence(params)
+  end
+
+  def changeset(model, params, :profile) do
+    model
+    |> cast(params, [:fiat_id])
+    |> cast_assoc(:fiat)
   end
 
   def changeset(model, params, :password) do

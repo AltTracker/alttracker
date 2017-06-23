@@ -9,6 +9,7 @@
               <ul class="popover-list">
                 <%= if @current_user do %>
                   <li class="popover-item">
+                    <%= link "Settings", to: user_path(@conn, :update), class: "popover-link", title: "Settings" %>
                     <%= link "Log out", to: session_path(@conn, :delete), method: "delete", class: "popover-link", title: "Log out" %>
                   </li>
                 <%= else %>

@@ -43,6 +43,11 @@ defmodule Cryptofolio.Web.Router do
 
   scope "/", Cryptofolio.Web do
     pipe_through :protected
+
+    get "/profile", UserController, :edit
+    post "/profile", UserController, :update
+    patch "/profile", UserController, :update
+    put   "/profile", UserController, :update
   end
 
   scope "/api", Cryptofolio.Web do

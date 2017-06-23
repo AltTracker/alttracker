@@ -33,11 +33,21 @@ defmodule Cryptofolio.Dashboard do
     }
   end
 
-  def list_dashboard_trades_for_user(user) do
-    last_ticks = CurrencyTick
-                 |> distinct([t], [t.currency_id])
-                 |> order_by([t], [t.currency_id, desc: t.last_updated])
+  def get_fiat_exchange(user) do
+    symbol = case Repo.one Ecto.assoc(user, :fiat) do
+      fiat -> fiat.symbol
+      nil -> "USD"
+    end
 
+    conversion = case Marketcap.get_fiat_price(symbol) do
+      {:ok, v} -> v
+      _ -> 1
+    end
+
+    %{ symbol: symbol, conversion: conversion }
+  end
+
+  def list_dashboard_trades_for_user(user) do
     Trade
     |> where(user_id: ^user.id)
     |> join(:inner, [t], _ in assoc(t, :currency)) 

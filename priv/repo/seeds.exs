@@ -29,14 +29,37 @@ alias Cryptofolio.Repo
 alias Cryptofolio.Dashboard.Trade
 alias Cryptofolio.Dashboard.Currency
 alias Cryptofolio.Dashboard.CurrencyTick
+alias Cryptofolio.Schema.Fiat
 
 require Logger
 
+# Seed cryptocurrencies
 with {:ok, req} <- HTTPoison.get("https://www.cryptocompare.com/api/data/coinlist/"),
      {:ok, json} <- Poison.decode(req.body),
      {:ok, coins} <- CoinList.extract_coins_from_coinlist(json) do
   Enum.each(coins, fn coin ->
-    Repo.insert!(%Currency{name: coin.name, symbol: coin.symbol})
+    case Repo.insert(Currency.changeset(%Currency{name: coin.name, symbol: coin.symbol}, %{})) do
+      {:ok, _ } -> {:ok}
+      {:error, error} -> Logger.error inspect(error)
+    end
+  end)
+else {_, error} ->
+  Logger.error "Seed script failed!"
+  Logger.error inspect(error)
+end
+
+# Seed fiat currencies
+root = "https://openexchangerates.org/api/currencies.json"
+query = URI.encode_query(app_id: Application.get_env(:cryptofolio, :open_exchange_key))
+currencies = "#{root}?#{query}"
+
+with {:ok, req} <- HTTPoison.get(currencies),
+     {:ok, currs} <- Poison.decode(req.body) do 
+  Enum.each(currs, fn {k, v} ->
+    case Repo.insert(Fiat.changeset(%Fiat{name: v, symbol: k}, %{})) do
+      {:ok, _ } -> {:ok}
+      {:error, error} -> Logger.error inspect(error)
+    end
   end)
 else {_, error} ->
   Logger.error "Seed script failed!"

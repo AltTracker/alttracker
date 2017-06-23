@@ -8,7 +8,7 @@
         <div class="portfolio-header__item">
           <div class="portfolio-header__title">Your Portfolio</div>
           <h1 class="portfolio-header__main">
-            <%= format_money(@portfolio.total) %>
+            <%= format_money(@portfolio.total, @fiat) %>
           </h1>
         </div>
         <div class="portfolio-header__item">
@@ -19,7 +19,7 @@
               portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>
             "
           >
-            <%= format_money(Decimal.round(@portfolio.profit_loss.value, 2)) %>
+            <%= format_money(Decimal.round(@portfolio.profit_loss.value, 2), @fiat) %>
           </h1>
         </div>
       </div>
@@ -66,13 +66,13 @@
     <tr>
       <td><%= name_with_symbol(trade.currency) %></td>
       <td><%= trade.amount %></td>
-      <td><%= format_money(trade.cost) %></td>
-      <td><%= format_money(trade.total_cost) %></td>
-      <td><%= format_money(trade.currency.cost_usd) %></td>
-      <td><%= format_money(trade.current_value) %></td>
+      <td><%= format_money(trade.cost, @fiat) %></td>
+      <td><%= format_money(trade.total_cost, @fiat) %></td>
+      <td><%= format_money(trade.currency.cost_usd, @fiat) %></td>
+      <td><%= format_money(trade.current_value, @fiat) %></td>
       <td>
         <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
-          <%= format_money(Trade.profit_loss(trade)) %>
+          <%= format_money(Trade.profit_loss(trade), @fiat) %>
         </span>
       </td>
       <td>

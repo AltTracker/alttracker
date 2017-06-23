@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <%= render Cryptofolio.Web.PageView, "_header.html", conn: @conn, current_user: @current_user %>
+    <%= render Cryptofolio.Web.PageView, "_header.html", conn: @conn, current_user: Coherence.current_user(@conn) %>
 
     <main class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

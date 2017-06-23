@@ -15,6 +15,43 @@ defmodule Cryptofolio.Marketcap do
 
   alias Cryptofolio.Marketcap.Currency
 
+  def list_fiats() do 
+    ConCache.get_or_store(:marketcap, :fiats, fn () ->
+      root = "https://openexchangerates.org/api/currencies.json"
+      query = URI.encode_query(app_id: Application.get_env(:cryptofolio, :open_exchange_key))
+      currencies = "#{root}?#{query}"
+
+      with {:ok, req} <- HTTPoison.get(currencies),
+           {:ok, currs} <- Poison.decode(req.body) do 
+           %ConCache.Item{ttl: :timer.hours(24), value: currs}
+      else {_, error} ->
+        %ConCache.Item{ttl: 0, value: {:error, error}}
+      end
+    end)
+  end
+
+  def get_fiat_price(symbol \\ "USD") do
+    fiats = ConCache.get_or_store(:marketcap, "coin:price##{symbol}", fn () ->
+      root = "https://openexchangerates.org/api/latest.json"
+      query = URI.encode_query(app_id: Application.get_env(:cryptofolio, :open_exchange_key))
+      url = "#{root}?#{query}"
+
+      with {:ok, req} <- HTTPoison.get(url),
+           {:ok, %{ "rates" => rates } = a} <- Poison.decode(req.body) do
+        %ConCache.Item{ttl: :timer.minutes(5), value: {:ok, rates}}
+      else {_, error} ->
+        %ConCache.Item{ttl: 0, value: {:error, error}}
+      end
+    end)
+
+    with {:ok, value} <- fiats,
+         true <- Map.has_key?(value, symbol) do
+      {:ok, value[symbol]}
+    else _ ->
+      {:error, %{ reason: "Can't find FIAT price" }}
+    end
+  end
+
   def list_coins() do 
     Currency |> Repo.all
   end

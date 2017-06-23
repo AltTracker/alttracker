@@ -1,0 +1,7 @@
+<h2>Edit User</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        fiats: @fiats,
+                        action: user_path(@conn, :update) %>
+
+<span><%= link "Back", to: page_path(@conn, :index) %></span>
