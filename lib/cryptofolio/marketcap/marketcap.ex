@@ -11,9 +11,34 @@ defmodule Cryptofolio.Marketcap do
   The boundary for the Marketcap system.
   """
 
-  alias Cryptofolio.Repo
+  use GenServer
 
+  alias Cryptofolio.Repo
   alias Cryptofolio.Marketcap.Currency
+
+  require Logger
+
+  def start_link do
+    GenServer.start_link(__MODULE__, %{})
+  end
+
+  def init(state) do
+    schedule_work(:timer.seconds(1))
+    {:ok, state}
+  end
+
+  def handle_info(:work, state) do
+    case update_coin_prices() do
+      {:error} -> schedule_work(:timer.seconds(1))
+      _ -> schedule_work(:timer.minutes(5))
+    end
+
+    {:noreply, state}
+  end
+
+  defp schedule_work(timer) do
+    Process.send_after(self(), :work, timer)
+  end
 
   def list_fiats() do 
     ConCache.get_or_store(:marketcap, :fiats, fn () ->
@@ -72,6 +97,7 @@ defmodule Cryptofolio.Marketcap do
   end
 
   def update_coin_prices() do
+    Logger.info "Updating Coin Prices"
     root = "https://min-api.cryptocompare.com/data/price"
 
     symbols = list_coins()
@@ -89,12 +115,12 @@ defmodule Cryptofolio.Marketcap do
          {:ok, json} <- Poison.decode(req.body),
          {:ok, data} <- extract_coin_prices_from_api(json) do
       Enum.each(data, fn {k, v} ->
-        ConCache.get_or_store(:marketcap, "coin:price##{k}", fn () ->
+        ConCache.store(:marketcap, "coin:price##{k}", fn () ->
           Decimal.div(Decimal.new(1), Decimal.new(v))
         end)
       end)
     else {_, error} ->
-      %ConCache.Item{ttl: 1, value: {:error, error}}
+      {:error, error}
     end
   end
 
