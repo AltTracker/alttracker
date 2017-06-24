@@ -29,8 +29,6 @@ defmodule Coherence.Redirects do
 
   ## Examples
 
-      import MyProject.Web.Router.Helpers
-
       # override the log out action back to the log in page
       def session_delete(conn, _), do: redirect(conn, to: session_path(conn, :new))
 
@@ -51,4 +49,7 @@ defmodule Coherence.Redirects do
   # Uncomment the following line to return the user to the login form after logging out
   # def session_delete(conn, _), do: redirect(conn, to: session_path(conn, :new))
 
+  import Cryptofolio.Web.Router.Helpers
+
+  def registration_create(conn, _), do: redirect(conn, to: session_path(conn, :new))
 end
