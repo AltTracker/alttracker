@@ -35,8 +35,8 @@ defmodule Cryptofolio.Dashboard do
 
   def get_fiat_exchange(user) do
     symbol = case Repo.one Ecto.assoc(user, :fiat) do
-      fiat -> fiat.symbol
       nil -> "USD"
+      fiat -> fiat.symbol
     end
 
     conversion = case Marketcap.get_fiat_price(symbol) do
