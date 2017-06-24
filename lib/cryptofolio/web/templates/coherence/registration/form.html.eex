@@ -51,6 +51,6 @@
   </div>
 
   <div class="form-group">
-    Already registered? <%= link dgettext("coherence", "Login"), to: session_path(@conn, :new), class: "btn" %>
+    Already registered? <%= link dgettext("coherence", "Login"), to: session_path(@conn, :new) %>
   </div>
 <% end %>
