@@ -1,0 +1,8 @@
+<div class="coin-transactions__empty">
+  <h3>
+    <%= if @owned, do: "Your", else: "This" %> portfolio is empty
+  </h3>
+  <%= if @owned do %>
+    <%= link "Add your first coin", to: trade_path(@conn, :new), class: "button" %>
+  <% end %>
+</div>

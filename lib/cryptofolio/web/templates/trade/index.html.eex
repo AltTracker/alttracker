@@ -18,8 +18,7 @@
               portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>
             " >
             <%= format_money(Decimal.round(@portfolio.profit_loss.value, 2), @fiat) %>
-          </h1>
-        </div>
+          </h1> </div>
       </div>
     </div>
     <div class="dashboard-header__cta">
@@ -39,7 +38,7 @@
   <section class="dashboard__sidebar">
     <div
       id="portfolio-pie"
-      class="portfolio-pie"
+e     class="portfolio-pie"
       data-trades="<%= Poison.encode! Trade.drop_ticks(@portfolio.trades) %>"
     >
     </div>
@@ -115,3 +114,6 @@
     <% end %>
   </tbody>
 </table>
+<%= if List.first(@portfolio.trades) == nil do %>
+  <%= render "empty.html", owned: @owned, conn: @conn %>
+<% end %>
