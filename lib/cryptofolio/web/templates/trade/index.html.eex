@@ -11,13 +11,14 @@
           </h1>
         </div>
         <div class="portfolio-header__item">
-          <div class="portfolio-header__title">Today's Gain/Loss</div>
+          <div class="portfolio-header__title">Total Gain/Loss</div>
           <h1
             class="
               portfolio-header__main
               portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>
             " >
             <%= format_money(Decimal.round(@portfolio.profit_loss.value, 2), @fiat) %>
+            <small>(<%= Decimal.round(@portfolio.profit_loss.perc, 0) %>%)</small>
           </h1> </div>
       </div>
     </div>
@@ -60,7 +61,7 @@ e     class="portfolio-pie"
   </thead>
   <tbody>
   <%= for trade <- @portfolio.trades do %>
-    <tr data-bind-link="<%= trade_path(@conn, :show, trade) %>">
+    <tr <%= if @owned, do: "data-bind-link='#{trade_path(@conn, :show, trade)}'" %>>
       <td>
         <%= img_tag "//cryptocompare.com" <> trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
         <%= name_with_symbol(trade.currency) %>
@@ -96,7 +97,7 @@ e     class="portfolio-pie"
   </thead>
   <tbody>
     <%= for trade <- @portfolio.trades do %>
-      <tr data-bind-link="<%= if @owned, do: trade_path(@conn, :show, trade) %>">
+      <tr <%= if @owned, do: "data-bind-link='#{trade_path(@conn, :show, trade)}'" %>>
         <td>
           <div><%= img_tag "//cryptocompare.com" <> trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
           <%= trade.currency.symbol %>
@@ -121,3 +122,14 @@ e     class="portfolio-pie"
 <%= if List.first(@portfolio.trades) == nil do %>
   <%= render "empty.html", owned: @owned, conn: @conn %>
 <% end %>
+
+<div class="dashboard-privacy-form">
+  <%= if @owned do %>
+    <div class="dashboard-privacy-form__message">
+      <b>
+        This portfolio is <%= privacy_text(@private) %>
+      </b>
+    </div>
+    <%= link "Make " <> privacy_text(!@private), to: trade_path(@conn, :toggle_privacy), method: "delete", class: "button" %>
+  <% end %>
+</div>

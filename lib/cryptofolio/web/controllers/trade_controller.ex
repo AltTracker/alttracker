@@ -1,11 +1,13 @@
 defmodule Cryptofolio.Web.TradeController do
   use Cryptofolio.Web, :controller
 
+  alias Coherence.Config
   alias Cryptofolio.Dashboard
 
   import Canary.Plugs
 
   plug :load_and_authorize_resource, model: Cryptofolio.Dashboard.Trade, only: [:show, :edit, :update, :delete]
+  plug Coherence.Authentication.Session, [protected: true] when action in [:toggle_privacy]
   use Cryptofolio.Web.AuthorizationController
 
   def index(conn, _params) do
@@ -23,12 +25,18 @@ defmodule Cryptofolio.Web.TradeController do
   def show_user(conn, user) do
     if user do
       current_user = conn.assigns[:current_user]
-      owned = if current_user, do: current_user.id === user.id
+      owned = if current_user, do: current_user.id === user.id, else: false
+      private = user.private_portfolio
 
       portfolio = Dashboard.get_portfolio(user)
       fiat_exchange = Dashboard.get_fiat_exchange(user)
 
-      render(conn, "index.html", portfolio: portfolio, fiat: fiat_exchange, owned: owned)
+      params = [portfolio: portfolio, fiat: fiat_exchange, owned: owned, private: private]
+      case {owned, private} do
+        {true, _} -> render(conn, "index.html", params)
+        {false, false} -> render(conn, "index.html", params)
+        {false, true} -> render(conn, "404.html")
+      end
     else
       redirect conn, to: "/"
     end
@@ -91,6 +99,19 @@ defmodule Cryptofolio.Web.TradeController do
             conn
             |> render("edit.html", trade: trade, changeset: changeset, currencies: currencies)
         end
+    end
+  end
+
+  def toggle_privacy(conn, _params) do
+    user = conn.assigns[:current_user]
+
+    case Dashboard.toggle_privacy(user) do
+      {:ok, user} ->
+        apply(Config.auth_module, Config.update_login, [conn, user, [id_key: Config.schema_key]])
+
+        conn
+        |> put_flash(:info, "Portfolio is now " <> Cryptofolio.Web.TradeView.privacy_text(user.private_portfolio))
+        |> redirect(to: trade_path(conn, :index))
     end
   end
 

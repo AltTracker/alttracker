@@ -107,10 +107,37 @@ $dashboard-header-grid--md: (
   }
 }
 
+.portfolio-private {
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 5rem;
+
+  &__logo {
+    max-width: 96px;
+  }
+
+  h3 {
+    margin-top: 2rem;
+  }
+}
+
+.dashboard-privacy-form {
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  max-width: 250px;
+
+  &__message {
+    margin-bottom: 1rem;
+  }
+}
+
 .coin-transactions-list {
   tbody {
     tr:hover {
-      cursor: pointer;
+      &[data-bind-link] {
+        cursor: pointer;
+      }
       background-color: rgba(0,0,0,0.05);
     }
   }

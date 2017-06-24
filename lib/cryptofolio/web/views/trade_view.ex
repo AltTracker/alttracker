@@ -42,6 +42,10 @@ defmodule Cryptofolio.Web.TradeView do
     ""
   end
 
+  def privacy_text(private) do
+    if private, do: "private", else: "public"
+  end
+
   def required_label(f, name) do
     label f, name do
       [

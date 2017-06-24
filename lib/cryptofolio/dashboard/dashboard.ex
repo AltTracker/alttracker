@@ -190,4 +190,10 @@ defmodule Cryptofolio.Dashboard do
     |> order_by(:name)
     |> Repo.all
   end
+
+  def toggle_privacy(user) do
+    user
+    |> User.changeset(:toggle_privacy)
+    |> Repo.update()
+  end
 end
