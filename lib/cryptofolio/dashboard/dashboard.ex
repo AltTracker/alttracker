@@ -102,7 +102,13 @@ defmodule Cryptofolio.Dashboard do
       ** (Ecto.NoResultsError)
 
   """
-  def get_trade!(id), do: Repo.get!(Trade, id)
+  def get_trade_with_currency!(id) do
+    Trade
+    |> join(:inner, [t], _ in assoc(t, :currency)) 
+    |> select([trade, curr], {trade, curr})
+    |> Repo.get!(id)
+    |> Cryptofolio.Dashboard.add_current_value_assocs
+  end
 
   @doc """
   Creates a trade.

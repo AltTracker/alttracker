@@ -2,6 +2,15 @@ import R from 'ramda'
 import Highcharts from 'highcharts/highstock' 
 import theme from '../modules/charts/theme' 
 
+const links = document.querySelectorAll('[data-bind-link]')
+
+function onBindLinkClick (e) {
+  e.preventDefault()
+  window.location = e.currentTarget.dataset['bindLink']
+}
+
+links.forEach(l => l.addEventListener('click', onBindLinkClick))
+
 const chart = document.getElementById('portfolio-chart')
 const chartData = JSON.parse(chart.dataset.currencies)
 

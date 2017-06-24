@@ -24,4 +24,8 @@ body {
 .button--danger.button--danger {
   border-color: $danger;
   background-color: $danger;
+
+  &:hover {
+    background-color: darken($danger, 15%);
+  }
 }
