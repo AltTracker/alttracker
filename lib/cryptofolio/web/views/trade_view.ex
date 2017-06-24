@@ -1,8 +1,11 @@
 defmodule Cryptofolio.Web.TradeView do
   use Cryptofolio.Web, :view
+  alias Cryptofolio.Money
 
   def format_money(number, %{ symbol: symbol, conversion: conversion }) do
-    Money.parse!(Decimal.to_string(Decimal.mult(number, Decimal.new(conversion))), symbol)
+    amount = Decimal.mult(number, Decimal.new(conversion))
+
+    Money.to_string(amount, symbol)
   end
 
   def format_money(number) do
