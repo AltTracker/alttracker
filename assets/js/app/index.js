@@ -13,10 +13,10 @@
 // to also remove its path from "config.paths.watched".
 import 'whatwg-fetch'
 import "phoenix_html"
-import './components/trade/form'
-import './components/landing'
-import './components/popover'
-import './components/portfolio'
+import '../components/trade/form'
+import '../components/landing'
+import '../components/popover'
+import '../components/portfolio'
 
 // Import local files
 //
