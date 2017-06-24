@@ -115,7 +115,7 @@ defmodule Cryptofolio.Marketcap do
          {:ok, json} <- Poison.decode(req.body),
          {:ok, data} <- extract_coin_prices_from_api(json) do
       Enum.each(data, fn {k, v} ->
-        ConCache.store(:marketcap, "coin:price##{k}", fn () ->
+        ConCache.get_or_store(:marketcap, "coin:price##{k}", fn () ->
           Decimal.div(Decimal.new(1), Decimal.new(v))
         end)
       end)
