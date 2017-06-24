@@ -38,7 +38,7 @@ defmodule Cryptofolio.Web.TradeController do
         {false, true} -> render(conn, "404.html")
       end
     else
-      redirect conn, to: "/"
+      render(conn, "404.html")
     end
   end
 
