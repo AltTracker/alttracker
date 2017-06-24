@@ -21,6 +21,11 @@
     <strong>Date:</strong>
     <%= @trade.date %>
   </div>
+
+  <div>
+    <strong>Description:</strong>
+    <%= @trade.description %>
+  </div>
 </div>
 
 <div>

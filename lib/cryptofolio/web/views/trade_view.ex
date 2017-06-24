@@ -24,4 +24,45 @@ defmodule Cryptofolio.Web.TradeView do
   def class_for_value(n1) do
     "price-value--#{if Decimal.cmp(n1, Decimal.new(0)) == :lt, do: 'decrease', else: 'increase'}"
   end
+
+  def description_preview(description) when is_binary(description) do
+    length = String.length(description)
+
+    if length > 50 do
+      "#{String.slice(description, 0, 50)}..."
+    else
+      description
+    end
+  end
+
+  def description_preview(description) do
+    ""
+  end
+
+  def required_label(f, name) do
+    label f, name do
+      [
+        "#{humanize(name)}\n",
+        content_tag(:abbr, "*", class: "required", title: "required")
+      ]
+    end
+  end
+
+  def required_label(f, name, opts) do
+    label f, name, opts do
+      [
+        "#{humanize(name)}\n",
+        content_tag(:abbr, "*", class: "required", title: "required")
+      ]
+    end
+  end
+
+  def required_label(f, id, name, opts \\ []) do
+    label f, id, opts do
+      [
+        "#{humanize(name)}\n",
+        content_tag(:abbr, "*", class: "required", title: "required")
+      ]
+    end
+  end
 end

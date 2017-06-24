@@ -6,19 +6,19 @@
   <% end %>
 
   <div class="form-group">
-    <%= label f, :currency_id %>
+    <%= required_label f, :currency_id %>
     <%= select f, :currency_id, @currencies |> Enum.map(&{name_with_symbol(&1), &1.id}) %>
     <%= error_tag f, :currency_id %>
   </div>
 
   <div class="form-group">
-    <%= label f, :amount, class: "control-label" %>
+    <%= required_label f, :amount, class: "control-label" %>
     <%= number_input f, :amount, step: "any", class: "form-control" %>
     <%= error_tag f, :amount %>
   </div>
 
   <div id="trade_cost_group" class="form-group" data-usd-btc-price="<%= @btc_price %>">
-    <%= label f, :cost, "Cost", class: "control-label" %>
+    <%= required_label f, :cost, "Cost", class: "control-label" %>
 
     <div class="trade-form-cost">
       <div class="trade-form-cost__single">
@@ -45,9 +45,15 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :date, class: "control-label" %>
+    <%= required_label f, :date, class: "control-label" %>
     <%= text_input f, :date, class: "form-control" %>
     <%= error_tag f, :date %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :description, class: "control-label" %>
+    <%= textarea f, :description, class: "form-control", maxlength: 500 %>
+    <%= error_tag f, :description %>
   </div>
 
   <div class="form-group">

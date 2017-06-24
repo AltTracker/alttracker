@@ -46,6 +46,7 @@ defmodule Cryptofolio.Dashboard.Trade do
     field :amount, :decimal
     field :cost, :decimal
     field :date, Cryptofolio.Dashboard.Trade.DateTime
+    field :description, :string
 
     timestamps()
   end
@@ -53,7 +54,7 @@ defmodule Cryptofolio.Dashboard.Trade do
   @doc false
   def changeset(%Trade{} = trade, attrs) do
     trade
-    |> cast(attrs, [:amount, :cost, :date, :currency_id])
+    |> cast(attrs, [:amount, :cost, :date, :currency_id, :description])
     |> cast_assoc(:currency)
     |> validate_required([:amount, :cost, :date, :currency_id])
   end

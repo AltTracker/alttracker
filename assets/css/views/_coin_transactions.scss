@@ -124,6 +124,10 @@ $dashboard-header-grid--md: (
     }
   }
 
+  &__item {
+    display: block;
+  }
+
   display: none;
 
   @include grid-media($dashboard-header-grid--md) {

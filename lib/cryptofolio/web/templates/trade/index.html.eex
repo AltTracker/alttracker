@@ -61,7 +61,10 @@
   <tbody>
   <%= for trade <- @portfolio.trades do %>
     <tr data-bind-link="<%= trade_path(@conn, :show, trade) %>">
-      <td><%= name_with_symbol(trade.currency) %></td>
+      <td>
+        <%= name_with_symbol(trade.currency) %>
+        <small class="coin-transactions-list__item"><%= description_preview(trade.description) %></small>
+      </td>
       <td><%= trade.amount %></td>
       <td><%= format_money(trade.cost, @fiat) %></td>
       <td><%= format_money(trade.total_cost, @fiat) %></td>
