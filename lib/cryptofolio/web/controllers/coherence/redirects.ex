@@ -52,4 +52,7 @@ defmodule Coherence.Redirects do
   import Cryptofolio.Web.Router.Helpers
 
   def registration_create(conn, _), do: redirect(conn, to: session_path(conn, :new))
+
+  @doc false
+  def password_create(conn, _), do: redirect(conn, to: session_path(conn, :new))
 end
