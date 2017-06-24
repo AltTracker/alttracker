@@ -1,4 +1,5 @@
 <%= form_for @changeset, @action, [as: :registration], fn f  -> %>
+  <img src="/android-chrome-192x192.png" alt="Alt Tracker Logo" class="main-logo" />
 
   <%= if @changeset.action do %>
     <div class="alert alert-danger">

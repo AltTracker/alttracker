@@ -1,3 +1,4 @@
+<img src="/android-chrome-192x192.png" alt="Alt Tracker Logo" class="main-logo" />
 <h3><%= dgettext "coherence", "Edit Account" %></h3>
 
 <%= render "form.html", changeset: @changeset,

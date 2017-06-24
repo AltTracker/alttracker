@@ -1,7 +1,9 @@
   <header class="cf-header">
     <nav class="navigation">
       <section class="container">
-        <a href="/"><h1 class="navigation__title">Folio</h1></a>
+        <a href="/"><h1 class="navigation__title">
+        <img src="/android-chrome-192x192.png" alt="Alt Tracker Logo" class="main-logo main-logo--header" />
+        Folio</h1></a>
         <ul class="navigation__list float-right">
           <li class="navigation__list-item">
             <a class="navigation__link" data-popover="#popover-profile">Profile</a>
