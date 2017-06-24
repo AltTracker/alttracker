@@ -8,7 +8,7 @@ defmodule Cryptofolio.Seeder.CoinList do
     coins = data
             |> Enum.map(fn { _, coin } ->
                 %{
-                  id: coin["Id"],
+                  id: elem(Integer.parse(coin["Id"]), 0),
                   name: coin["CoinName"],
                   symbol: coin["Name"],
                   image_url: coin["ImageUrl"]
@@ -38,7 +38,10 @@ with {:ok, req} <- HTTPoison.get("https://www.cryptocompare.com/api/data/coinlis
      {:ok, json} <- Poison.decode(req.body),
      {:ok, coins} <- CoinList.extract_coins_from_coinlist(json) do
   Enum.each(coins, fn coin ->
-    case Repo.insert(Currency.changeset(%Currency{name: coin.name, symbol: coin.symbol}, %{})) do
+    changeset = %Currency{name: coin.name, symbol: coin.symbol, cryptocompare_id: coin.id, cryptocompare_image_url: coin.image_url}
+    |> Currency.changeset(%{})
+
+    case Repo.insert(changeset) do
       {:ok, _ } -> {:ok}
       {:error, error} -> Logger.error inspect(error)
     end

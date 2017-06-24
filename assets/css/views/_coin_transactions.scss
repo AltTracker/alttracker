@@ -13,9 +13,7 @@ $dashboard--md: (
 
 .dashboard {
   @include grid-container;
-
-  &__main {
-    @include grid-column(1, $dashboard);
+&__main { @include grid-column(1, $dashboard);
     @include grid-media($dashboard--md) {
       @include grid-column(2);
     }
@@ -126,6 +124,11 @@ $dashboard-header-grid--md: (
 
   &__item {
     display: block;
+  }
+
+  &__currency-icon {
+    width: 25px;
+    vertical-align: bottom;
   }
 
   display: none;

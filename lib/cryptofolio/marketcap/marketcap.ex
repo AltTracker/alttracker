@@ -25,7 +25,7 @@ defmodule Cryptofolio.Marketcap do
            {:ok, currs} <- Poison.decode(req.body) do 
            %ConCache.Item{ttl: :timer.hours(24), value: currs}
       else {_, error} ->
-        %ConCache.Item{ttl: 0, value: {:error, error}}
+        %ConCache.Item{ttl: 1, value: {:error, error}}
       end
     end)
   end
@@ -40,7 +40,7 @@ defmodule Cryptofolio.Marketcap do
            {:ok, %{ "rates" => rates } = a} <- Poison.decode(req.body) do
         %ConCache.Item{ttl: :timer.hours(24), value: {:ok, rates}}
       else {_, error} ->
-        %ConCache.Item{ttl: 0, value: {:error, error}}
+        %ConCache.Item{ttl: 1, value: {:error, error}}
       end
     end)
 
@@ -66,7 +66,7 @@ defmodule Cryptofolio.Marketcap do
            {:ok, %{ ^symbol => value }} <- Poison.decode(req.body) do
              %ConCache.Item{ttl: :timer.hours(24), value: Decimal.div(Decimal.new(1), Decimal.new(value))}
       else {_, error} ->
-        %ConCache.Item{ttl: 0, value: {:error, error}}
+        %ConCache.Item{ttl: 1, value: {:error, error}}
       end
     end)
   end
@@ -94,7 +94,7 @@ defmodule Cryptofolio.Marketcap do
         end)
       end)
     else {_, error} ->
-      %ConCache.Item{ttl: 0, value: {:error, error}}
+      %ConCache.Item{ttl: 1, value: {:error, error}}
     end
   end
 
@@ -118,7 +118,7 @@ defmodule Cryptofolio.Marketcap do
            {:ok, history} <- extract_history_from_api(json) do
         %ConCache.Item{ttl: :timer.minutes(5), value: {:ok, %{ticks: history}}}
       else {_, error} ->
-        %ConCache.Item{ttl: 0, value: {:error, error}}
+        %ConCache.Item{ttl: 1, value: {:error, error}}
       end
     end)
   end
