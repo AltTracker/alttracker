@@ -109,10 +109,48 @@ $dashboard-header-grid--md: (
 }
 
 .coin-transactions-list {
+  tbody {
+    tr:hover {
+      cursor: pointer;
+      background-color: rgba(0,0,0,0.05);
+    }
+  }
+
   &__actions {
     text-align: center;
     .button {
       margin-bottom: 0;
     }
+  }
+
+  display: none;
+
+  @include grid-media($dashboard-header-grid--md) {
+    display: table;
+  }
+}
+
+.coin-transactions-list-mobile {
+  tbody {
+    tr:hover {
+      cursor: pointer;
+      background-color: rgba(0,0,0,0.05);
+    }
+  }
+
+  td {
+    &:nth-child(1) {
+      font-weight: bold;
+    }
+
+    &:nth-child(n+2) {
+      text-align: right;
+    }
+  }
+
+  display: table;
+
+  @include grid-media($dashboard-header-grid--md) {
+    display: none;
   }
 }

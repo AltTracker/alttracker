@@ -43,8 +43,10 @@ defmodule Cryptofolio.Web.TradeController do
   end
 
   def show(conn, %{"id" => id}) do
-    trade = Dashboard.get_trade!(id)
-    render(conn, "show.html", trade: trade)
+    trade = Dashboard.get_trade_with_currency!(id)
+    fiat_exchange = Dashboard.get_fiat_exchange(conn.assigns[:current_user])
+
+    render(conn, "show.html", trade: trade, fiat: fiat_exchange)
   end
 
   def edit(conn, %{}) do

@@ -17,8 +17,7 @@
             class="
               portfolio-header__main
               portfolio-header__main--<%= class_for_sign(@portfolio.profit_loss.perc) %>
-            "
-          >
+            " >
             <%= format_money(Decimal.round(@portfolio.profit_loss.value, 2), @fiat) %>
           </h1>
         </div>
@@ -57,13 +56,11 @@
       <th>Current Value</th>
       <th>Profit/Loss</th>
       <th>%</th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
   <%= for trade <- @portfolio.trades do %>
-    <tr>
+    <tr data-bind-link="<%= trade_path(@conn, :show, trade) %>">
       <td><%= name_with_symbol(trade.currency) %></td>
       <td><%= trade.amount %></td>
       <td><%= format_money(trade.cost, @fiat) %></td>
@@ -80,11 +77,37 @@
           <%= Decimal.round(Trade.profit_loss_perc(trade), 1) %>%
         </span>
       </td>
-      <td></td>
-      <td class="coin-transactions-list__actions">
-        <%= link "Edit", to: trade_path(@conn, :edit, trade), class: "button" %>
-      </td>
     </tr>
   <% end %>
+  </tbody>
+</table>
+
+<table class="coin-transactions-list-mobile">
+  <thead>
+    <tr>
+      <th>Currency</th>
+      <th>Holdings</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for trade <- @portfolio.trades do %>
+      <tr data-bind-link="<%= trade_path(@conn, :show, trade) %>">
+        <td><%= trade.currency.symbol %></td>
+        <td>
+          <div><%= format_money(trade.currency.cost_usd, @fiat) %></div>
+          <div><%= trade.amount %></div>
+        </td>
+
+        <td>
+          <div><%= format_money(trade.cost, @fiat) %></div>
+          <div>
+            <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
+              <%= Decimal.round(Trade.profit_loss_perc(trade), 1) %>%
+            </span>
+          </div>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
