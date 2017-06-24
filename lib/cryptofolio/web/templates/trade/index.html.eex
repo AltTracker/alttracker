@@ -61,7 +61,7 @@ e     class="portfolio-pie"
   </thead>
   <tbody>
   <%= for trade <- @portfolio.trades do %>
-    <tr <%= if @owned, do: "data-bind-link='#{trade_path(@conn, :show, trade)}'" %>>
+    <tr <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, trade)}" %>>
       <td>
         <%= img_tag "//cryptocompare.com" <> trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
         <%= name_with_symbol(trade.currency) %>
@@ -97,7 +97,7 @@ e     class="portfolio-pie"
   </thead>
   <tbody>
     <%= for trade <- @portfolio.trades do %>
-      <tr <%= if @owned, do: "data-bind-link='#{trade_path(@conn, :show, trade)}'" %>>
+      <tr <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, trade)}" %>>
         <td>
           <div><%= img_tag "//cryptocompare.com" <> trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
           <%= trade.currency.symbol %>
