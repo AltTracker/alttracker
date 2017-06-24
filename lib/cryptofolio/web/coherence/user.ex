@@ -25,6 +25,7 @@ defmodule Cryptofolio.User do
     model
     |> cast(params, [:name, :email] ++ coherence_fields())
     |> validate_required([:name, :email])
+    |> validate_format(:name, ~r/^[A-Za-z0-9_]*$/, message: "Your username can only contain letters, numbers and '_'")
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> unique_constraint(:name, name: :users_lower_name_index)
