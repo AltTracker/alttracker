@@ -75,6 +75,10 @@ defmodule Cryptofolio.Dashboard do
     %Trade{ trade | currency: %Currency{ currency | last_tick: tick } }
   end
 
+  def get_coin_price(symbol) do
+    Marketcap.get_coin_price(symbol)
+  end
+
   @doc """
   Returns the list of trades.
 

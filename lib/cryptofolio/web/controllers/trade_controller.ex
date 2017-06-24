@@ -23,10 +23,12 @@ defmodule Cryptofolio.Web.TradeController do
 
   def new(conn, _params) do
     changeset = Dashboard.change_trade(%Cryptofolio.Dashboard.Trade{})
+    btc_price = Dashboard.get_coin_price("BTC")
+
     case Dashboard.list_currencies() do
       currencies ->
         conn
-        |> render("new.html", changeset: changeset, currencies: currencies)
+        |> render("new.html", changeset: changeset, currencies: currencies, btc_price: btc_price)
     end
   end
 
@@ -38,7 +40,9 @@ defmodule Cryptofolio.Web.TradeController do
         |> redirect(to: trade_path(conn, :show, trade))
       {:error, %Ecto.Changeset{} = changeset} ->
         currencies = Dashboard.list_currencies()
-        render(conn, "new.html", changeset: changeset, currencies: currencies)
+        btc_price = Dashboard.get_coin_price("BTC")
+
+        render(conn, "new.html", changeset: changeset, currencies: currencies, btc_price: btc_price)
     end
   end
 

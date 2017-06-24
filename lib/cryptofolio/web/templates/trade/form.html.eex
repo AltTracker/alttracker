@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, [id: 'trade-form'], fn f -> %>
+<%= form_for @changeset, @action, [id: 'trade_form'], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
@@ -17,9 +17,30 @@
     <%= error_tag f, :amount %>
   </div>
 
-  <div class="form-group">
-    <%= label f, :cost, class: "control-label" %>
-    <%= number_input f, :cost, step: "any", class: "form-control" %>
+  <div id="trade_cost_group" class="form-group" data-usd-btc-price="<%= @btc_price %>">
+    <%= label f, :cost, "Cost", class: "control-label" %>
+
+    <div class="trade-form-cost">
+      <div class="trade-form-cost__single">
+        <%= label f, :cost, "Price of one coin in USD", class: "control-label" %>
+        <%= number_input f, :cost, step: "any", class: "form-control" %>
+      </div>
+
+      <div class="trade-form-cost__divider">OR</div>
+
+      <div class="trade-form-cost__single">
+        <%= label f, :total_cost, "Total USD Cost", class: "control-label" %>
+        <%= number_input f, :total_cost, step: "any", class: "form-control" %>
+      </div>
+
+      <div class="trade-form-cost__divider">OR</div>
+
+      <div class="trade-form-cost__single">
+        <%= label f, :total_cost_btc, "Total BTC Cost", class: "control-label" %>
+        <%= number_input f, :total_cost_btc, step: "any", class: "form-control" %>
+      </div>
+    </div>
+
     <%= error_tag f, :cost %>
   </div>
 

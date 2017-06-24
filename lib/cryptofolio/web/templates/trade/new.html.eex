@@ -2,6 +2,7 @@
 
 <%= render "form.html", changeset: @changeset,
                         currencies: @currencies,
+                        btc_price: @btc_price,
                         action: trade_path(@conn, :create) %>
 
 <span><%= link "Back", to: trade_path(@conn, :index) %></span>
