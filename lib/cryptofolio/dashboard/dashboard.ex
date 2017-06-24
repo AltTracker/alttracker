@@ -7,6 +7,7 @@ defmodule Cryptofolio.Dashboard do
   alias Cryptofolio.Repo
 
   alias Cryptofolio.Trade, as: TradeService
+  alias Cryptofolio.User
   alias Cryptofolio.Marketcap
   alias Cryptofolio.Dashboard.Trade
   alias Cryptofolio.Dashboard.Currency
@@ -31,6 +32,10 @@ defmodule Cryptofolio.Dashboard do
       },
       currencies: Enum.map(trades, &(&1.currency))
     }
+  end
+
+  def get_portfolio_by_username(name) do
+    Repo.get_by(User, name: name)
   end
 
   def get_fiat_exchange(user) do

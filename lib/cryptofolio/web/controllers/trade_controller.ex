@@ -11,11 +11,24 @@ defmodule Cryptofolio.Web.TradeController do
   def index(conn, _params) do
     user = conn.assigns[:current_user]
 
+    show_user(conn, user)
+  end
+
+  def username(conn, %{ "username" => username }) do
+    user = Dashboard.get_portfolio_by_username(username)
+
+    show_user(conn, user)
+  end
+
+  def show_user(conn, user) do
     if user do
+      current_user = conn.assigns[:current_user]
+      owned = if current_user, do: current_user.id === user.id
+
       portfolio = Dashboard.get_portfolio(user)
       fiat_exchange = Dashboard.get_fiat_exchange(user)
 
-      render(conn, "index.html", portfolio: portfolio, fiat: fiat_exchange)
+      render(conn, "index.html", portfolio: portfolio, fiat: fiat_exchange, owned: owned)
     else
       redirect conn, to: "/"
     end

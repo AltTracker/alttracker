@@ -9,11 +9,11 @@
 
     <title>Cryptofolio!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   </head>
 
   <body>
     <%= render @view_module, @view_template, assigns %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   </body>
 </html>

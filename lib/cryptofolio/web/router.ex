@@ -38,6 +38,9 @@ defmodule Cryptofolio.Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    scope "/portfolio" do
+      get "/user/:username", TradeController, :username
+    end
     resources "/portfolio", TradeController
   end
 

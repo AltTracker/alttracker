@@ -20,6 +20,7 @@ defmodule Cryptofolio.User do
     |> validate_required([:name, :email])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
+    |> unique_constraint(:name, name: :users_lower_name_index)
     |> validate_coherence(params)
   end
 

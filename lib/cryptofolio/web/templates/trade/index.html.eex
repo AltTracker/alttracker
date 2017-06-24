@@ -1,6 +1,5 @@
 <% alias Cryptofolio.Trade %>
 
-<% Decimal.round(@portfolio.profit_loss.perc, 0) %>
 <div class="dashboard">
   <div class="dashboard-header">
     <div class="dashboard-header__portfolio">
@@ -24,7 +23,9 @@
       </div>
     </div>
     <div class="dashboard-header__cta">
-      <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
+      <%= if @owned do %>
+        <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
+      <%= end %>
     </div>
   </div>
   <main class="dashboard__main">
@@ -95,7 +96,7 @@
   </thead>
   <tbody>
     <%= for trade <- @portfolio.trades do %>
-      <tr data-bind-link="<%= trade_path(@conn, :show, trade) %>">
+      <tr data-bind-link="<%= if @owned, do: trade_path(@conn, :show, trade) %>">
         <td><%= trade.currency.symbol %></td>
         <td>
           <div><%= format_money(trade.currency.cost_usd, @fiat) %></div>
