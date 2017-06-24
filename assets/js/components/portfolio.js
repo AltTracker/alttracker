@@ -39,38 +39,38 @@ if (chart) {
       series: []
     })
 
-    async function getSeriesData () {
+    function getSeriesData () {
       const uniqChartData = R.uniqBy(R.prop('symbol'))(chartData)
 
-      await Promise.all(
-        uniqChartData.map(async ({ name, symbol }) => {
-          try {
-            const getTicks = R.pipe(
-              JSON.parse,
-              R.prop('ticks'),
-              R.map(({ time, high }) => ([time * 1000, high]))
-            )
+      return Promise.all(
+        uniqChartData.map(({ name, symbol }) => {
+          const getTicks = R.pipe(
+            JSON.parse,
+            R.prop('ticks'),
+            R.map(({ time, high }) => ([time * 1000, high]))
+          )
 
-            const resp = await fetch(`/api/coin_daily_history/${symbol}`)
-            const curr = await resp.text()
+          return fetch(`/api/coin_daily_history/${symbol}`)
+            .then(resp => resp.text())
+            .then(curr => {
+              const displayName = `${name} (${symbol})`
 
-            const displayName = `${name} (${symbol})`
-
-            portchart.addAxis({
-              id: displayName,
-              title: {
-                text: `${name}`
-              },
-              visible: false
+              portchart.addAxis({
+                id: displayName,
+                title: {
+                  text: `${name}`
+                },
+                visible: false
+              })
+              portchart.addSeries({
+                name: displayName ,
+                data: getTicks(curr),
+                yAxis: displayName
+              })
             })
-            portchart.addSeries({
-              name: displayName ,
-              data: getTicks(curr),
-              yAxis: displayName
+            .catch(e => {
+              console.error(e)
             })
-          } catch (e) {
-            console.error(e)
-          }
         })
       )
     }
