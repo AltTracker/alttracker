@@ -40,7 +40,8 @@ config :coherence,
 
 config :coherence, Cryptofolio.Coherence.Mailer,
   adapter: Swoosh.Adapters.Sendgrid,
-  api_key: "your api key here"
+  api_key: System.get_env("SENDGRID_API")
+
 # %% End Coherence Configuration %%
 
 config :canary,

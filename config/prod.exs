@@ -33,9 +33,6 @@ config :coherence,
   email_from_name: System.get_env("SENDGRID_NAME"),
   email_from_email: System.get_env("SENDGRID_EMAIL")
 
-config :coherence, Cryptofolio.Coherence.Mailer,
-  api_key: System.get_env("SENDGRID_API")
-
 # Do not print debug messages in production
 config :logger, level: :info
 
