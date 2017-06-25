@@ -184,6 +184,10 @@ defmodule Cryptofolio.Dashboard do
     Trade.changeset(trade, %{})
   end
 
+  def change_trade(%Trade{} = trade, attrs) do
+    Trade.changeset(trade, attrs)
+  end
+
   def list_currencies do
     Currency
     |> order_by(:name)

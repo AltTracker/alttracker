@@ -43,8 +43,9 @@ defmodule Cryptofolio.Web.TradeController do
   end
 
   def new(conn, _params) do
-    changeset = Dashboard.change_trade(%Cryptofolio.Dashboard.Trade{})
     btc_price = Dashboard.get_coin_price("BTC")
+    total_cost_btc = Decimal.div(Decimal.new(1), btc_price)
+    changeset = Dashboard.change_trade(%Cryptofolio.Dashboard.Trade{ amount: 1 }, %{ cost: 1, total_cost: 1, total_cost_btc: total_cost_btc })
 
     case Dashboard.list_currencies() do
       currencies ->
