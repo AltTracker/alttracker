@@ -29,10 +29,6 @@ config :cryptofolio, Cryptofolio.Repo,
 config :cryptofolio,
   open_exchange_key: System.get_env("OPEN_EXCHANGE_KEY")
 
-config :coherence,
-  email_from_name: System.get_env("SENDGRID_NAME"),
-  email_from_email: System.get_env("SENDGRID_EMAIL")
-
 # Do not print debug messages in production
 config :logger, level: :info
 

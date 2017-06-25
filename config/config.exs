@@ -34,8 +34,8 @@ config :coherence,
   router: Cryptofolio.Web.Router,
   messages_backend: Cryptofolio.Coherence.Messages,
   logged_out_url: "/",
-  email_from_name: "Your Name",
-  email_from_email: "yourname@example.com",
+  email_from_name: System.get_env("SENDGRID_NAME"),
+  email_from_email: System.get_env("SENDGRID_EMAIL"),
   opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :registerable]
 
 config :coherence, Cryptofolio.Coherence.Mailer,
