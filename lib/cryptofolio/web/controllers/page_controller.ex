@@ -15,4 +15,9 @@ defmodule Cryptofolio.Web.PageController do
       |> render("index.html", email: "", changeset: cs)
     end
   end
+
+  def about(conn, _params) do
+    conn
+    |> render("about.html")
+  end
 end

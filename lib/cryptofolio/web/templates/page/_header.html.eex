@@ -6,6 +6,9 @@
         Folio</h1></a>
         <ul class="navigation__list float-right">
           <li class="navigation__list-item">
+            <a class="navigation__link" href="<%= page_path(@conn, :about) %>">About</a>
+          </li>
+          <li class="navigation__list-item">
             <a class="navigation__link" data-popover="#popover-profile">Profile</a>
             <div class="popover" id="popover-profile">
               <ul class="popover-list">

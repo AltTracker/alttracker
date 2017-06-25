@@ -1,0 +1,6 @@
+<article>
+  <h1><span class="about__title">Alt Tracker</span> / About</h1>
+  <p><b>Alt Tracker</b> is a cryptocurrency portfolio app built on top of Elixir Phoenix and cryptocompare's public API</p>
+  <p>Always open to comments, suggestions, and feature ideas. Email me at <a href="mailto:admin@alttracker.com">admin@alttracker.com</a></p>
+  <p>Also open for <a href="//arianv.com/">contract work</a></p>
+</article>

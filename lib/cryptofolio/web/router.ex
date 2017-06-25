@@ -38,6 +38,7 @@ defmodule Cryptofolio.Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/about", PageController, :about
     scope "/portfolio" do
       get "/user/:username", TradeController, :username
       delete "/toggle_privacy", TradeController, :toggle_privacy
