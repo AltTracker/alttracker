@@ -1,0 +1,13 @@
+.page-error {
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 5rem;
+
+  &__logo {
+    max-width: 96px;
+  }
+
+  h3 {
+    margin-top: 2rem;
+  }
+}

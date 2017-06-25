@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= render Cryptofolio.Web.LayoutView, "_meta.html", conn: @conn %>
+
+    <title>Alt Tracker</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <header class="cf-header">
+      <nav class="navigation">
+        <section class="container">
+          <a href="/"><h1 class="navigation__title">
+          <img src="/android-chrome-192x192.png" alt="Alt Tracker Logo" class="main-logo main-logo--header" />
+          Folio</h1></a>
+        </section>
+      </nav>
+    </header>
+    <div class="page-error">
+      <img src="/android-chrome-192x192.png" alt="Alt Tracker Logo" class="portfolio-private__logo" />
+      <h3>Oops, something went wrong, sorry about that!</h3>
+      <p>If the error persists, please let me know at <a href="mailto:admin@alttracker.com">admin@alttracker.com</a></p>
+      <%= link "Go home", to: page_path(@conn, :index) %>
+    </div>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  </body>
+</html>
