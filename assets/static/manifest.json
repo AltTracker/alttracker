@@ -3,7 +3,7 @@
   "short_name": "AltTracker",
   "theme_color": "#9b4dca",
   "background_color": "#ffffff",
-  "display": "fullscreen",
+  "display": "standalone",
   "Scope": "/",
   "start_url": "/",
   "icons": [
