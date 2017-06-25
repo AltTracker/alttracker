@@ -16,3 +16,10 @@
 
 <meta property="og:image" content="/<%= image %>"/>
 <meta name="author" content="">
+
+<link rel="manifest" href="/manifest.json">
+<link href="/images/icons/icon-72x72.png" rel="apple-touch-icon" />
+<link href="/images/icons/icon-128x128.png" rel="apple-touch-icon" sizes="128x128" />
+<link href="/images/icons/icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
+<link href="/images/icons/icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+<link href="/images/icons/icon-192x192.png" rel="apple-touch-icon" sizes="192x192" />
