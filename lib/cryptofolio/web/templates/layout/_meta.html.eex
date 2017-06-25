@@ -1,0 +1,18 @@
+<% title = "Compare and track public Bitcoin, Ethereum and other cryptocurrency portfolios" %>
+<% description = "Track all your cryptocurrency investments in one place. Learn and Track Bitcoin, Altcoins, and ICO portfolios, as well as compare and learn investment strategies." %>
+<% image = "android-chrome-192x192.png" %>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta property="title" content="<%= title %>"/>
+<meta property="twitter:title" content="<%= title %>"/>
+<meta property="og:title" content="<%= title %>"/>
+
+<meta name="description" content="<%= description %>">
+<meta name="twitter:description" content="<%= description %>">
+<meta name="og:description" content="<%= description %>">
+
+<meta property="og:image" content="/<%= image %>"/>
+<meta name="author" content="">
