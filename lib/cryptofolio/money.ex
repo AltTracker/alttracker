@@ -135,7 +135,6 @@ defmodule Cryptofolio.Money do
     delimeter = "."
     separator = ","
     exponent = 2
-    sub_units_count = Decimal.new(2)
 
     [super_unit | sub_unit] = amount
                               |> Decimal.abs

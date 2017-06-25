@@ -2,18 +2,14 @@ defmodule Cryptofolio.Web.UserController do
   use Cryptofolio.Web, :controller
 
   import Ecto.Query, warn: false
-  alias Cryptofolio.Repo
 
   alias Coherence.Config
   alias Cryptofolio.Account
-  alias Cryptofolio.User
-  alias Cryptofolio.Repo
 
   require Ecto.Query
 
   def edit(conn, _) do
     user = conn.assigns[:current_user]
-    fiat = Repo.all Ecto.assoc(user, :fiat)
     changeset = Account.change_user(user)
     fiats = Account.list_fiats()
     render(conn, "edit.html", user: user, changeset: changeset, fiats: fiats)

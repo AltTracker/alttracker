@@ -38,7 +38,7 @@ defmodule Cryptofolio.Web.TradeView do
     end
   end
 
-  def description_preview(description) do
+  def description_preview(_) do
     ""
   end
 
@@ -48,15 +48,6 @@ defmodule Cryptofolio.Web.TradeView do
 
   def required_label(f, name) do
     label f, name do
-      [
-        "#{humanize(name)}\n",
-        content_tag(:abbr, "*", class: "required", title: "required")
-      ]
-    end
-  end
-
-  def required_label(f, name, opts) do
-    label f, name, opts do
       [
         "#{humanize(name)}\n",
         content_tag(:abbr, "*", class: "required", title: "required")

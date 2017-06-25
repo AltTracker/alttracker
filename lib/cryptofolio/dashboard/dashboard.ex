@@ -11,7 +11,6 @@ defmodule Cryptofolio.Dashboard do
   alias Cryptofolio.Marketcap
   alias Cryptofolio.Dashboard.Trade
   alias Cryptofolio.Dashboard.Currency
-  alias Cryptofolio.Dashboard.CurrencyTick
 
   def get_portfolio(user) do
     trades = Cryptofolio.Dashboard.list_dashboard_trades_for_user(user)

@@ -55,7 +55,7 @@ defmodule Cryptofolio.Web.TradeController do
 
   def create(conn, %{"trade" => trade_params}) do
     case Dashboard.create_user_trade(conn.assigns[:current_user], trade_params) do
-      {:ok, trade} ->
+      {:ok, _trade} ->
         conn
         |> put_flash(:info, "Trade created successfully.")
         |> redirect(to: trade_path(conn, :index))

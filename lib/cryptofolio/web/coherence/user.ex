@@ -16,12 +16,14 @@ defmodule Cryptofolio.User do
     timestamps()
   end
 
+  def changeset(model, params \\ %{})
+
   def changeset(model, :toggle_privacy) do
     model
     |> cast(%{ private_portfolio: !model.private_portfolio }, [:private_portfolio])
   end
 
-  def changeset(model, params \\ %{}) do
+  def changeset(model, params) do
     model
     |> cast(params, [:name, :email] ++ coherence_fields())
     |> validate_required([:name, :email])
