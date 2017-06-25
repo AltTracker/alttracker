@@ -15,7 +15,8 @@
         <h4>Line graphs, pie charts, email reports for your portfolio, completely <b>free</b></h4>
         <h4>500+ currencies supported and counting</h4>
         <div class="landing-intro__cta-container">
-          <%= link "View Live Demo", to: "#", class: "button landing-intro__cta-button" %>
+          <%= link "View Sample Portfolio", to: "/portfolio/user/admin", class: "button landing-intro__cta-button" %>
+          <%= link "Login", to: session_path(@conn, :new), class: "button landing-intro__cta-button" %>
         </div>
       </div>
       <div class="landing-intro__coins">
