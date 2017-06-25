@@ -55,6 +55,15 @@ defmodule Cryptofolio.Web.TradeView do
     end
   end
 
+  def required_label(f, name, opts) when is_list(opts) do 
+    label f, name, opts do 
+      [ 
+        "#{humanize(name)}\n", 
+        content_tag(:abbr, "*", class: "required", title: "required") 
+      ] 
+    end 
+  end 
+
   def required_label(f, id, name, opts \\ []) do
     label f, id, opts do
       [
