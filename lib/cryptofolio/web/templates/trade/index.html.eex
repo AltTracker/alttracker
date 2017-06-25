@@ -103,12 +103,12 @@ e     class="portfolio-pie"
           <%= trade.currency.symbol %>
         </td>
         <td>
-          <div><%= format_money(trade.currency.cost_usd, @fiat) %></div>
+          <div><%= format_money(trade.current_value, @fiat) %></div>
           <div><small><%= trade.amount %></small></div>
         </td>
 
         <td>
-          <div><%= format_money(trade.cost, @fiat) %></div>
+          <div><%= format_money(trade.currency.cost_usd, @fiat) %></div>
           <div>
             <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
               <%= Decimal.round(Trade.profit_loss_perc(trade), 1) %>%
