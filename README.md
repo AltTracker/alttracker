@@ -1,6 +1,6 @@
-# Cryptofolio
+# Alt Tracker
 
-Cryptofolio is a cryptocurrency portfolio management tool
+Alt Tracker is a beautiful, simple, cryptocurrency portfolio management tool written with [Phoenix](https://phoenixframework.org)
 
 ## Keys
 
