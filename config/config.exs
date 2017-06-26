@@ -36,6 +36,7 @@ config :coherence,
   logged_out_url: "/",
   email_from_name: System.get_env("SENDGRID_NAME"),
   email_from_email: System.get_env("SENDGRID_EMAIL"),
+  site_name: "Alt Tracker",
   opts: [:authenticatable, :recoverable, :lockable, :trackable, :unlockable_with_token, :registerable]
 
 config :coherence, Cryptofolio.Coherence.Mailer,
