@@ -6,7 +6,7 @@ defmodule Cryptofolio.Web.TradeController do
 
   import Canary.Plugs
 
-  plug :load_and_authorize_resource, model: Cryptofolio.Dashboard.Trade, only: [:show, :edit, :update, :delete]
+  plug :load_and_authorize_resource, model: Cryptofolio.Dashboard.Trade, only: [:index, :new, :create, :show, :edit, :update, :delete]
   plug Coherence.Authentication.Session, [protected: true] when action in [:toggle_privacy]
   use Cryptofolio.Web.AuthorizationController
 
