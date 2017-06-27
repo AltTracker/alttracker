@@ -79,14 +79,24 @@ if (chart) {
 
 const pie = document.getElementById('portfolio-pie')
 if (pie) {
+  const hashMapToArray = data => R.map(R.prop(R.__, data), R.keys(data))
   const pieData = JSON.parse(pie.dataset.trades)
 
   const pieSeriesData = (
-    pieData.map(({ id, currency: { name, symbol }, current_value }) => ({
-      id,
-      name: `${name} (${symbol})`,
-      y: parseFloat(current_value)
-    }))
+    hashMapToArray(
+      pieData.reduce((acc, val) => {
+        const nameWithSymbol = `${val.currency.name} (${val.currency.symbol})`
+        const accumulatedY = acc[nameWithSymbol] ? acc[nameWithSymbol].y : 0
+
+        // no transform spread :(
+        return Object.assign({}, acc, {
+          [nameWithSymbol]: {
+            name: nameWithSymbol,
+            y: accumulatedY + parseFloat(val.current_value)
+          }
+        })
+      }, {})
+    )
   )
 
   if (pieSeriesData.length > 0) {
