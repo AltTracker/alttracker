@@ -17,6 +17,7 @@ import '../components/trade/form'
 import '../components/landing'
 import '../components/popover'
 import '../components/portfolio'
+import '../components/coin-transactions'
 
 // Import local files
 //
