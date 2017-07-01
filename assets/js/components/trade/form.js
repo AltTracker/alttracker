@@ -31,5 +31,7 @@ if (document.getElementById('trade_form')) {
     tradeForm.cost.value = tradeForm.totalCost.value / tradeForm.amount.value
   })
 
-  flatpickr('#trade_date')
+  flatpickr('#trade_date', {
+    defaultDate: new Date()
+  })
 }
