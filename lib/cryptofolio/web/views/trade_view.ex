@@ -2,6 +2,10 @@ defmodule Cryptofolio.Web.TradeView do
   use Cryptofolio.Web, :view
   alias Cryptofolio.Money
 
+  def currency_image_url(%{ cryptocompare_image_url: url }) do
+    "http://res.cloudinary.com/alttracker/image/fetch/" <> "http://cryptocompare.com" <> url
+  end
+
   def format_money(number, %{ symbol: symbol, conversion: conversion }) do
     amount = Decimal.mult(number, Decimal.new(conversion))
 
