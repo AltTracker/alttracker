@@ -89,7 +89,7 @@ defmodule Cryptofolio.Marketcap do
 
       with {:ok, req} <- HTTPoison.get(url),
            {:ok, %{ ^symbol => value }} <- Poison.decode(req.body) do
-             %ConCache.Item{ttl: :timer.hours(24), value: Decimal.div(Decimal.new(1), Decimal.new(value))}
+             %ConCache.Item{ttl: :timer.minutes(5), value: Decimal.div(Decimal.new(1), Decimal.new(value))}
       else {_, error} ->
         %ConCache.Item{ttl: 1, value: {:error, error}}
       end
