@@ -18,6 +18,10 @@
           <%= link "View Sample Portfolio", to: "/portfolio/user/admin", class: "button landing-intro__cta-button" %>
           <%= link "Login", to: session_path(@conn, :new), class: "button landing-intro__cta-button" %>
         </div>
+        <div class="changelog">
+          <h1>Changelog</h1>
+          <%= raw @changelog %>
+        </div>
       </div>
       <div class="landing-intro__coins">
         <%= for coin <- coins do %>

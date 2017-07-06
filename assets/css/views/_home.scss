@@ -132,3 +132,16 @@ $landing--md: (
     grid-column: span 5;
   }
 }
+
+.changelog {
+  h2 { font-size: 2.5rem; }
+  h3 { font-size: 2rem; }
+  h1, h2, h3 {
+    margin-bottom: 1rem;
+  }
+
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 1rem 2rem;
+  height: 250px;
+  overflow: auto;
+}

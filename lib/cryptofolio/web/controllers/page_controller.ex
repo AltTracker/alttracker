@@ -9,10 +9,13 @@ defmodule Cryptofolio.Web.PageController do
     else
       user_schema = Config.user_schema
       cs = Helpers.changeset(:registration, user_schema, user_schema.__struct__)
+      changelog = "priv/CHANGELOG.md"
+                  |> File.read!
+                  |> Earmark.as_html!
 
       conn
       |> put_layout("home.html")
-      |> render("index.html", email: "", changeset: cs)
+      |> render("index.html", email: "", changeset: cs, changelog: changelog)
     end
   end
 
