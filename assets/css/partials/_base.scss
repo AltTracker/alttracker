@@ -7,6 +7,10 @@ body {
   width: 100%;
 }
 
+select {
+  -webkit-appearance: none;
+}
+
 .cf-header~.container {
   margin-top: 4rem;
 }
