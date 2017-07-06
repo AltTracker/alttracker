@@ -60,29 +60,53 @@ e     class="portfolio-pie"
     </tr>
   </thead>
   <tbody>
-  <%= for trade <- @portfolio.trades do %>
-    <tr <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, trade)}" %>>
+  <%= for {currency_id, coin_trades} <- group_coin_trades(@portfolio.trades) do %>
+    <tr class="coin-trades-summary" data-currency-id="<%= currency_id %>">
       <td>
-        <%= img_tag "//cryptocompare.com" <> trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
-        <%= name_with_symbol(trade.currency) %>
-        <small class="coin-transactions-list__item"><%= description_preview(trade.description) %></small>
+        <%= img_tag "//cryptocompare.com" <> List.first(coin_trades).currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
+        <%= name_with_symbol(List.first(coin_trades).currency) %>
+        <small class="coin-transactions-list__item"><%= description_preview(List.first(coin_trades).description) %></small>
       </td>
-      <td><%= trade.amount %></td>
-      <td><%= format_money(trade.cost, @fiat) %></td>
-      <td><%= format_money(trade.total_cost, @fiat) %></td>
-      <td><%= format_money(trade.currency.cost_usd, @fiat) %></td>
-      <td><%= format_money(trade.current_value, @fiat) %></td>
+      <td><%= coin_trades_amount(coin_trades) %></td>
+      <td><%= format_money(coin_trades_cost(coin_trades), @fiat) %></td>
+      <td><%= format_money(coin_trades_total_cost(coin_trades), @fiat) %></td>
+      <td><%= format_money(List.first(coin_trades).currency.cost_usd, @fiat) %></td>
+      <td><%= format_money(List.first(coin_trades).current_value, @fiat) %></td>
       <td>
-        <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
-          <%= format_money(Trade.profit_loss(trade), @fiat) %>
+        <span class="<%= class_for_value(coin_trades_profit_lost(coin_trades)) %>">
+          <%= format_money(coin_trades_profit_lost(coin_trades), @fiat) %>
         </span>
       </td>
       <td>
-        <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
-          <%= Decimal.round(Trade.profit_loss_perc(trade), 1) %>%
+        <span class="<%= class_for_value(coin_trades_profit_lost_perc(coin_trades)) %>">
+          <%= Decimal.round(coin_trades_profit_lost_perc(coin_trades), 1) %>%
         </span>
       </td>
     </tr>
+    <%= for coin_trade <- coin_trades do %>
+      <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, coin_trade)}" %>>
+        <td>
+          <%= img_tag "//cryptocompare.com" <> coin_trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
+          <%= name_with_symbol(coin_trade.currency) %>
+          <small class="coin-transactions-list__item"><%= description_preview(coin_trade.description) %></small>
+        </td>
+        <td><%= coin_trade.amount %></td>
+        <td><%= format_money(coin_trade.cost, @fiat) %></td>
+        <td><%= format_money(coin_trade.total_cost, @fiat) %></td>
+        <td>-</td>
+        <td>-</td>
+        <td>
+          <span class="<%= class_for_value(Trade.profit_loss(coin_trade)) %>">
+            <%= format_money(Trade.profit_loss(coin_trade), @fiat) %>
+          </span>
+        </td>
+        <td>
+          <span class="<%= class_for_value(Trade.profit_loss(coin_trade)) %>">
+            <%= Decimal.round(Trade.profit_loss_perc(coin_trade), 1) %>%
+          </span>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
   </tbody>
 </table>
@@ -96,26 +120,44 @@ e     class="portfolio-pie"
     </tr>
   </thead>
   <tbody>
-    <%= for trade <- @portfolio.trades do %>
-      <tr <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, trade)}" %>>
+    <%= for {currency_id, coin_trades} <- group_coin_trades(@portfolio.trades) do %>
+      <tr class="coin-trades-summary" data-currency-id="<%= currency_id %>">
         <td>
-          <div><%= img_tag "//cryptocompare.com" <> trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
-          <%= trade.currency.symbol %>
+          <div><%= img_tag "//cryptocompare.com" <> List.first(coin_trades).currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
+          <%= List.first(coin_trades).currency.symbol %>
         </td>
         <td>
-          <div><%= format_money(trade.current_value, @fiat) %></div>
-          <div><small><%= trade.amount %></small></div>
+          <div><%= format_money(List.first(coin_trades).current_value, @fiat) %></div>
+          <div><small><%= coin_trades_amount(coin_trades) %></small></div>
         </td>
-
         <td>
-          <div><%= format_money(trade.currency.cost_usd, @fiat) %></div>
+          <div><%= format_money(coin_trades_total_cost(coin_trades), @fiat) %></div>
           <div>
-            <span class="<%= class_for_value(Trade.profit_loss(trade)) %>">
-              <%= Decimal.round(Trade.profit_loss_perc(trade), 1) %>%
+            <span class="<%= class_for_value(coin_trades_profit_lost(coin_trades)) %>">
+              <%= Decimal.round(coin_trades_profit_lost_perc(coin_trades), 1) %>%
             </span>
           </div>
         </td>
       </tr>
+      <%= for coin_trade <- coin_trades do %>
+        <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, coin_trade)}" %>>
+          <td>
+            <div><%= img_tag "//cryptocompare.com" <> coin_trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
+            <%= coin_trade.currency.symbol %>
+          </td>
+          <td>
+            <div><%= coin_trade.amount %></div>
+          </td>
+          <td>
+            <div><%= format_money(coin_trade.total_cost, @fiat) %></div>
+            <div>
+              <span class="<%= class_for_value(Trade.profit_loss(coin_trade)) %>">
+                <%= format_money(Trade.profit_loss_perc(coin_trade), @fiat) %>
+              </span>
+            </div>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

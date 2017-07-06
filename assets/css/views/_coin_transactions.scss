@@ -190,6 +190,32 @@ $dashboard-header-grid--md: (
   }
 }
 
+.coin-transactions-list-mobile,
+.coin-transactions-list {
+  .coin-trades-summary {
+    cursor: pointer;
+  }
+
+  .coin-trade {
+    display: none;
+
+    td:first-of-type:before {
+      content: "";
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-left: 1px solid #E1E1E1;
+      border-bottom: 1px solid #E1E1E1;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+  }
+
+  .coin-trade.visible {
+    display: table-row;
+  }
+}
+
 .coin-transactions__empty {
   text-align: center;
 }
