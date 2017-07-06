@@ -56,7 +56,7 @@ defmodule Cryptofolio.Marketcap do
   end
 
   def get_fiat_price(symbol \\ "USD") do
-    fiats = ConCache.get_or_store(:marketcap, "coin:price##{symbol}", fn () ->
+    fiats = ConCache.get_or_store(:marketcap, "fiat:prices", fn () ->
       root = "https://openexchangerates.org/api/latest.json"
       query = URI.encode_query(app_id: Application.get_env(:cryptofolio, :open_exchange_key))
       url = "#{root}?#{query}"
