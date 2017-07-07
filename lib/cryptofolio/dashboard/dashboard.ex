@@ -32,12 +32,19 @@ defmodule Cryptofolio.Dashboard do
   @doc """
   Returns user portfolio
   """
-  def get_user_portfolio(%User{} = user) do
+  def get_or_create_user_portfolio(%User{} = user) do
     portfolio = user
     |> Ecto.assoc(:portfolios)
     |> first(:inserted_at)
     |> where(active: true)
     |> Repo.one
+
+    if is_nil(portfolio) do
+      {:ok, portfolio} = user
+      |> Ecto.build_assoc(:portfolios)
+      |> Portfolio.changeset(%{ name: "My Portfolio" })
+      |> Repo.insert()
+    end
 
     %Portfolio{ portfolio | user: user }
   end
@@ -181,10 +188,15 @@ defmodule Cryptofolio.Dashboard do
     |> Repo.update()
   end
 
-  def delete_portfolio(%Portfolio{} = portfolio) do
-    portfolio
-    |> Portfolio.changeset(:deactivate)
-    |> Repo.update()
+  def delete_portfolio(user, %Portfolio{} = portfolio) do
+    portfolios = list_portfolios(user)
+    if length(portfolios)  <= 1 do
+      {:error, reason: "Can't delete last portfolio"}
+    else
+      portfolio
+      |> Portfolio.changeset(:deactivate)
+      |> Repo.update()
+    end
   end
 
   @doc """

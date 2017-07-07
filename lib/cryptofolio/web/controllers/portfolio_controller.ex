@@ -11,7 +11,7 @@ defmodule Cryptofolio.Web.PortfolioController do
   use Cryptofolio.Web.AuthorizationController
 
   def index(conn, _params) do
-    portfolio = Dashboard.get_user_portfolio(conn.assigns[:current_user])
+    portfolio = Dashboard.get_or_create_user_portfolio(conn.assigns[:current_user])
 
     get_portfolio(conn, portfolio)
   end
@@ -101,11 +101,18 @@ defmodule Cryptofolio.Web.PortfolioController do
   end
 
   def delete(conn, %{}) do
+    user = conn.assigns[:current_user]
     portfolio = conn.assigns[:portfolio]
-    {:ok, _portfolio} = Dashboard.delete_portfolio(portfolio)
 
-    conn
-    |> put_flash(:info, "Portfolio deleted successfully.")
-    |> redirect(to: portfolio_path(conn, :index))
+    case Dashboard.delete_portfolio(user, portfolio) do
+      {:ok, _portfolio} ->
+        conn
+        |> put_flash(:info, "Portfolio deleted successfully.")
+        |> redirect(to: portfolio_path(conn, :index))
+      {:error, [reason: reason]} ->
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: portfolio_path(conn, :show, portfolio.id))
+    end
   end
 end
