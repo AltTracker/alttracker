@@ -18,7 +18,7 @@ defmodule Cryptofolio.Dashboard do
   end
 
   def get_portfolio(id) do
-    Repo.get_by! Portfolio, id: id
+    Repo.get_by Portfolio, id: id, active: true
   end
 
   def list_portfolios(user) do
