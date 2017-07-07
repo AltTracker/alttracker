@@ -36,6 +36,7 @@ defmodule Cryptofolio.Dashboard do
     portfolio = user
     |> Ecto.assoc(:portfolios)
     |> first(:inserted_at)
+    |> where(active: true)
     |> Repo.one
 
     %Portfolio{ portfolio | user: user }
