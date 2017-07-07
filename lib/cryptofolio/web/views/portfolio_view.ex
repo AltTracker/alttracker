@@ -1,24 +1,6 @@
 defmodule Cryptofolio.Web.PortfolioView do
   use Cryptofolio.Web, :view
-  alias Cryptofolio.{Money, Trade}
-
-  def format_money(number, %{ symbol: symbol, conversion: conversion }) do
-    amount = Decimal.mult(number, Decimal.new(conversion))
-
-    Money.to_string(amount, symbol)
-  end
-
-  def format_money(number) do
-    format_money(Decimal.to_string(number), %{ symbol: "USD", conversion: 1 })
-  end
-
-  def name_with_symbol(c) do
-    if c do
-      "#{c.name} (#{c.symbol})"
-    else
-      ""
-    end
-  end
+  alias Cryptofolio.Trade
 
   def class_for_sign(n1) do
     "#{if Decimal.cmp(n1, Decimal.new(0)) == :lt, do: 'decrease', else: 'increase'}"
@@ -48,33 +30,6 @@ defmodule Cryptofolio.Web.PortfolioView do
 
   def privacy_text(portfolio, :reverse) do
     if portfolio.is_public_all, do: "private", else: "public"
-  end
-
-  def required_label(f, name) do
-    label f, name do
-      [
-        "#{humanize(name)}\n",
-        content_tag(:abbr, "*", class: "required", title: "required")
-      ]
-    end
-  end
-
-  def required_label(f, name, opts) when is_list(opts) do
-    label f, name, opts do
-      [
-        "#{humanize(name)}\n",
-        content_tag(:abbr, "*", class: "required", title: "required")
-      ]
-    end
-  end
-
-  def required_label(f, id, name, opts \\ []) do
-    label f, id, opts do
-      [
-        "#{humanize(name)}\n",
-        content_tag(:abbr, "*", class: "required", title: "required")
-      ]
-    end
   end
 
   def group_coin_trades(trades) do

@@ -37,6 +37,7 @@ defmodule Cryptofolio.Web do
       use Phoenix.HTML
 
       import Cryptofolio.Web.Router.Helpers
+      import Cryptofolio.Web.ViewHelpers
       import Cryptofolio.Web.ErrorHelpers
       import Cryptofolio.Web.Gettext
     end
