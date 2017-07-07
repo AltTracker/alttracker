@@ -9,7 +9,7 @@ defmodule Cryptofolio.User do
     field :email, :string
 
     belongs_to :fiat, Cryptofolio.Schema.Fiat
-    has_many :portfolio, Cryptofolio.Dashboard.Portfolio
+    has_many :portfolios, Cryptofolio.Dashboard.Portfolio
     coherence_schema()
 
     timestamps()
