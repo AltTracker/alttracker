@@ -7,7 +7,7 @@ defmodule Cryptofolio.Web.PortfolioController do
   import Canary.Plugs
 
   plug :load_and_authorize_resource, model: Cryptofolio.Dashboard.Portfolio, only: [:edit, :update, :delete], persisted: true
-  plug Coherence.Authentication.Session, [protected: true] when action in [:toggle_privacy]
+  plug Coherence.Authentication.Session, [protected: true] when action in [:index, :toggle_privacy]
   use Cryptofolio.Web.AuthorizationController
 
   def index(conn, _params) do
