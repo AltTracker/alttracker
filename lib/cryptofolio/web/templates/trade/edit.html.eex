@@ -1,8 +1,6 @@
 <h2>Edit Trade</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        currencies: @currencies,
-                        btc_price: @btc_price,
-                        action: trade_path(@conn, :update, @trade) %>
+                        action: portfolio_trade_path(@conn, :update, @portfolio, @trade) %>
 
-<span><%= link "Back", to: trade_path(@conn, :index) %></span>
+<span><%= link "Back", to: portfolio_path(@conn, :show, @portfolio) %></span>

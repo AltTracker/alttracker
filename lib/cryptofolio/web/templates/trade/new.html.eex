@@ -3,6 +3,6 @@
 <%= render "form.html", changeset: @changeset,
                         currencies: @currencies,
                         btc_price: @btc_price,
-                        action: trade_path(@conn, :create) %>
+                        action: portfolio_trade_path(@conn, :create, @portfolio.id) %>
 
-<span><%= link "Back", to: trade_path(@conn, :index) %></span>
+<span><%= link "Back", to: portfolio_path(@conn, :show, @portfolio.id) %></span>

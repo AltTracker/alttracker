@@ -5,7 +5,7 @@ defmodule Cryptofolio.Web.PageController do
 
   def index(conn, _params) do
     if conn.assigns[:current_user] do
-      redirect conn, to: trade_path(conn, :index)
+      redirect conn, to: portfolio_path(conn, :index)
     else
       user_schema = Config.user_schema
       cs = Helpers.changeset(:registration, user_schema, user_schema.__struct__)
