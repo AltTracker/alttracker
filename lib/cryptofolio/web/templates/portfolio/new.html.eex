@@ -1,0 +1,6 @@
+<h2>New Portfolio</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: portfolio_path(@conn, :create) %>
+
+<span><%= link "Back", to: portfolio_path(@conn, :index) %></span>
