@@ -37,10 +37,10 @@ defmodule Cryptofolio.Dashboard.Trade do
   import Ecto.Changeset
   alias Cryptofolio.Dashboard.Trade
 
-  @derive {Poison.Encoder, except: [:__meta__, :__schema__, :user]}
+  @derive {Poison.Encoder, except: [:__meta__, :__schema__, :portfolio]}
 
   schema "trades" do
-    belongs_to :user, Cryptofolio.User
+    belongs_to :portfolio, Cryptofolio.Portfolio
     belongs_to :currency, Cryptofolio.Dashboard.Currency
 
     field :amount, :decimal
