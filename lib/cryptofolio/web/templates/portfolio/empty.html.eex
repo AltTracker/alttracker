@@ -3,6 +3,6 @@
     <%= if @owned, do: "Your", else: "This" %> portfolio is empty
   </h3>
   <%= if @owned do %>
-    <%= link "Add your first coin", to: trade_path(@conn, :new), class: "button" %>
+    <%= link "Add your first coin", to: portfolio_trade_path(@conn, :new, @portfolio.id), class: "button" %>
   <% end %>
 </div>

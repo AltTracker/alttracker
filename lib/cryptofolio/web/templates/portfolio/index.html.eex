@@ -1,6 +1,31 @@
 <% alias Cryptofolio.Trade %>
 
 <div class="dashboard">
+  <div class="dashboard-portfolios">
+    <%= for %{id: id, name: name} <- @portfolios do %>
+      <h3>
+        <%=
+          link name,
+          to: portfolio_path(@conn, :show, id),
+          class: if @portfolio.id === id, do: "dashboard-portfolios__portfolio--active"
+        %>
+        <%= if @portfolio.id == id do %>
+          <div>
+            <small>
+              <%=
+                link "Edit",
+                to: portfolio_path(@conn, :edit, id),
+                class: "dashboard-portfolios__portfolio-action"
+              %>
+            </small>
+          </div>
+        <%= end %>
+      </h3>
+    <%= end %>
+    <h3 style="margin-bottom: 0;">
+      <%= link "+ Add Portfolio", to: portfolio_path(@conn, :new), class: "button dashboard-portfolios__portfolio-new" %>
+    </h3>
+  </div>
   <div class="dashboard-header">
     <div class="dashboard-header__portfolio">
       <div class="portfolio-header">
@@ -24,7 +49,7 @@
     </div>
     <div class="dashboard-header__cta">
       <%= if @owned do %>
-        <%= link "Add a Coin", to: trade_path(@conn, :new), class: "button float-right" %>
+        <%= link "Add a Coin", to: portfolio_trade_path(@conn, :new, @portfolio.id), class: "button float-right" %>
       <%= end %>
     </div>
   </div>
@@ -84,7 +109,7 @@ e     class="portfolio-pie"
       </td>
     </tr>
     <%= for coin_trade <- coin_trades do %>
-      <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, coin_trade)}" %>>
+      <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{portfolio_trade_path(@conn, :show, @portfolio.id, coin_trade.id)}" %>>
         <td>
           <%= img_tag "//cryptocompare.com" <> coin_trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
           <%= name_with_symbol(coin_trade.currency) %>
@@ -140,7 +165,7 @@ e     class="portfolio-pie"
         </td>
       </tr>
       <%= for coin_trade <- coin_trades do %>
-        <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{trade_path(@conn, :show, coin_trade)}" %>>
+        <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{portfolio_trade_path(@conn, :show, @portfolio.id, coin_trade.id)}" %>>
           <td>
             <div><%= img_tag "//cryptocompare.com" <> coin_trade.currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
             <%= coin_trade.currency.symbol %>
@@ -162,16 +187,16 @@ e     class="portfolio-pie"
   </tbody>
 </table>
 <%= if List.first(@portfolio.trades) == nil do %>
-  <%= render "empty.html", owned: @owned, conn: @conn %>
+  <%= render "empty.html", owned: @owned, portfolio: @portfolio, conn: @conn %>
 <% end %>
 
 <div class="dashboard-privacy-form">
   <%= if @owned do %>
     <div class="dashboard-privacy-form__message">
       <b>
-        This portfolio is <%= privacy_text(@private) %>
+        This portfolio is <%= privacy_text(@portfolio.actual) %>
       </b>
     </div>
-    <%= link "Make " <> privacy_text(!@private), to: trade_path(@conn, :toggle_privacy), method: "delete", class: "button" %>
+    <%= link "Make " <> privacy_text(@portfolio.actual, :reverse), to: portfolio_path(@conn, :toggle_privacy, @portfolio.id), method: "post", class: "button" %>
   <% end %>
 </div>

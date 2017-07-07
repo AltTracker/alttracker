@@ -1,0 +1,35 @@
+<h2><%= name_with_symbol(@trade.currency) %></h2>
+
+<div>
+  <strong>
+    <%= format_money(@trade.current_value, @fiat) %>
+  </strong>
+</div>
+
+<div>
+  <div>
+    <strong>Amount:</strong>
+    <%= @trade.amount %>
+  </div>
+
+  <div>
+    <strong>Cost:</strong>
+    <td><%= format_money(@trade.cost, @fiat) %></td>
+  </div>
+
+  <div>
+    <strong>Date:</strong>
+    <%= @trade.date %>
+  </div>
+
+  <div>
+    <strong>Description:</strong>
+    <%= @trade.description %>
+  </div>
+</div>
+
+<div>
+  <span><%= link "Edit", to: portfolio_path(@conn, :edit, @trade), class: "button" %></span>
+  <span><%= link "Back", to: portfolio_path(@conn, :index), class: "button" %></span>
+  <span><%= link "Delete", to: portfolio_path(@conn, :delete, @trade), method: "delete", class: "button button--danger" %></span>
+</div>

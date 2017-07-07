@@ -1,0 +1,7 @@
+<h2>Edit Portfolio</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: portfolio_path(@conn, :update, @portfolio) %>
+
+<span><%= link "Back", to: portfolio_path(@conn, :index), class: "button" %></span>
+<span><%= link "Delete", to: portfolio_path(@conn, :delete, @portfolio), method: "delete", class: "button button--danger" %></span>
