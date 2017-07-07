@@ -27,6 +27,33 @@ $dashboard--md: (
   }
 }
 
+.dashboard-portfolios {
+  max-width: 100%;
+  overflow: auto;
+  white-space: nowrap;
+
+  h3 {
+    display: inline-block;
+    padding-right: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  &__portfolio--active {
+    font-size: 3rem;
+  }
+
+  &__portfolio-action {
+    position: absolute;
+  }
+
+  &__portfolio-new {
+    font-size: .8rem;
+    height: 2.8rem;
+    line-height: 2.8rem;
+    padding: 0 1.5rem;
+  }
+}
+
 $dashboard-header-grid: (
   columns: 1,
   gutter: 0
