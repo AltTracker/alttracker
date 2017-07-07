@@ -40,10 +40,13 @@ defmodule Cryptofolio.Web.Router do
     get "/", PageController, :index
     get "/about", PageController, :about
     scope "/portfolio" do
-      get "/user/:username", TradeController, :username
+      get "/", PortfolioController, :index
+      get "/:portfolio_id", PortfolioController, :show
+      scope "/:portfolio_id" do
+        resources "/trades", TradeController, except: [:index]
+      end
       delete "/toggle_privacy", TradeController, :toggle_privacy
     end
-    resources "/trades", TradeController
   end
 
   scope "/", Cryptofolio.Web do
