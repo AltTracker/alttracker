@@ -21,12 +21,20 @@ defmodule Cryptofolio.Dashboard do
     Repo.get_by! Portfolio, id: id
   end
 
+  def list_portfolios(user) do
+    user
+    |> Ecto.assoc(:portfolios)
+    |> order_by(:inserted_at)
+    |> where(active: true)
+    |> Repo.all
+  end
+
   @doc """
   Returns user portfolio
   """
   def get_user_portfolio(%User{} = user) do
     portfolio = user
-    |> Ecto.assoc(:portfolio)
+    |> Ecto.assoc(:portfolios)
     |> first(:inserted_at)
     |> Repo.one
 
@@ -51,7 +59,8 @@ defmodule Cryptofolio.Dashboard do
         value: TradeService.profit_loss(total, cost),
         perc: TradeService.profit_loss_perc(total, cost)
       },
-      currencies: Enum.map(trades, &(&1.currency))
+      currencies: Enum.map(trades, &(&1.currency)),
+      actual: portfolio
     }
   end
 
@@ -101,6 +110,21 @@ defmodule Cryptofolio.Dashboard do
     %{ symbol: symbol, conversion: conversion }
   end
 
+  def change_user_portfolio() do
+    Portfolio.changeset(%Portfolio{}, %{})
+  end
+
+  def change_user_portfolio(%Portfolio{} = portfolio) do
+    Portfolio.changeset(portfolio, %{})
+  end
+
+  def create_user_portfolio(user, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:portfolios)
+    |> Portfolio.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Returns the list of trades.
 
@@ -137,20 +161,29 @@ defmodule Cryptofolio.Dashboard do
   end
 
   @doc """
-  Creates a trade.
-
-  ## Examples
-
-      iex> create_trade(%{field: value})
-      {:ok, %Trade{}}
-
-      iex> create_trade(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Creates a portfolio trade.
   """
-  def create_portfolio_trade(id, attrs \\ %{}) do
-    Trade.changeset(%Trade{ portfolio_id: id }, attrs)
+  def create_portfolio_trade(portfolio, attrs \\ %{}) do
+    portfolio
+    |> Ecto.build_assoc(:trades)
+    |> Trade.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def change_portfolio(%Portfolio{} = portfolio) do
+    Portfolio.changeset(portfolio, %{})
+  end
+
+  def update_portfolio(%Portfolio{} = portfolio, attrs) do
+    portfolio
+    |> Portfolio.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_portfolio(%Portfolio{} = portfolio) do
+    portfolio
+    |> Portfolio.changeset(:deactivate)
+    |> Repo.update()
   end
 
   @doc """
@@ -210,9 +243,9 @@ defmodule Cryptofolio.Dashboard do
     |> Repo.all
   end
 
-  def toggle_privacy(user) do
-    user
-    |> User.changeset(:toggle_privacy)
+  def toggle_privacy(portfolio) do
+    portfolio
+    |> Portfolio.changeset(:toggle_privacy)
     |> Repo.update()
   end
 end
