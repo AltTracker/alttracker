@@ -1,6 +1,9 @@
 {
   "repository": {},
   "license": "MIT",
+  "engine": {
+    "node": "6.3"
+  },
   "scripts": {
     "deploy": "brunch build --production",
     "watch": "brunch watch --stdin"
