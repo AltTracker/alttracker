@@ -23,6 +23,7 @@
       <% end %>
       <%= render @view_module, @view_template, assigns %>
     </main>
+    <%= render Cryptofolio.Web.PageView, "_footer.html", conn: @conn %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   </body>

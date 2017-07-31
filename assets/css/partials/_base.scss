@@ -2,7 +2,9 @@ $primary: #9B4DCA;
 $success: green;
 $danger: #D64242;
 
-body {
+html, body {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
 }
@@ -13,6 +15,10 @@ select {
 
 .cf-header~.container {
   margin-top: 4rem;
+}
+
+main.container {
+  flex: 1 0 auto;
 }
 
 .price-value--increase {

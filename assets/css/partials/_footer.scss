@@ -1,0 +1,14 @@
+.footer {
+  height: $footer-height;
+  text-align: center;
+
+  p {
+    padding-top: 10px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  &__love-text {
+    color: #f77380;
+  }
+}
