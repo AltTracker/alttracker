@@ -21,7 +21,7 @@ defmodule Cryptofolio.Dashboard do
     Repo.get_by Portfolio, id: id, active: true
   end
 
-  def list_portfolios(user) do
+  def list_portfolios(user = %User{}) do
     user
     |> Ecto.assoc(:portfolios)
     |> order_by(:inserted_at)
@@ -104,12 +104,22 @@ defmodule Cryptofolio.Dashboard do
     Marketcap.get_coin_price(symbol)
   end
 
-  def get_fiat_exchange(user) do
+  def get_fiat_exchange(user = %User{}) do
     symbol = case Repo.one Ecto.assoc(user, :fiat) do
       nil -> "USD"
       fiat -> fiat.symbol
     end
 
+    conversion = case Marketcap.get_fiat_price(symbol) do
+      {:ok, v} -> v
+      _ -> 1
+    end
+
+    %{ symbol: symbol, conversion: conversion }
+  end
+
+  def get_fiat_exchange(_) do
+    symbol = "USD"
     conversion = case Marketcap.get_fiat_price(symbol) do
       {:ok, v} -> v
       _ -> 1
@@ -147,7 +157,7 @@ defmodule Cryptofolio.Dashboard do
   end
 
   @doc """
-  Gets a single trade.
+  Gets a single trade with currency.
 
   Raises `Ecto.NoResultsError` if the Trade does not exist.
 
@@ -165,7 +175,15 @@ defmodule Cryptofolio.Dashboard do
     |> join(:inner, [t], _ in assoc(t, :currency)) 
     |> select([trade, curr], {trade, curr})
     |> Repo.get!(id)
-    |> Cryptofolio.Dashboard.add_current_value_assocs
+    |> add_current_value_assocs
+  end
+
+  def get_with_currency!(trade) do
+    curr = trade
+    |> Ecto.assoc(:currency)
+    |> Repo.one
+
+    add_current_value_assocs({ trade, curr })
   end
 
   @doc """

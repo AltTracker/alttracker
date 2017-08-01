@@ -32,7 +32,7 @@ defmodule Cryptofolio.Web.PortfolioController do
 
       fiat_exchange = Dashboard.get_fiat_exchange(current_user)
       portfolio = Dashboard.get_portfolio_for_dashboard(portfolio)
-      portfolios = Dashboard.list_portfolios(current_user)
+      portfolios = if owned, do: Dashboard.list_portfolios(current_user), else: []
 
       params = [portfolio: portfolio, portfolios: portfolios, fiat: fiat_exchange, owner: owner, owned: owned, is_private: is_private]
       case {owned, is_private} do
@@ -88,14 +88,14 @@ defmodule Cryptofolio.Web.PortfolioController do
     end
   end
 
-  def toggle_privacy(conn, %{ "id" => id }) do
+  def toggle_privacy(conn, %{ "portfolio_id" => id }) do
     {id, ""} = Integer.parse(id)
     portfolio = Dashboard.get_portfolio(id)
 
     case Dashboard.toggle_privacy(portfolio) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "Portfolio is now " <> Cryptofolio.Web.TradeView.privacy_text(portfolio))
+        |> put_flash(:info, "Portfolio is now " <> Cryptofolio.Web.PortfolioView.privacy_text(portfolio))
         |> redirect(to: portfolio_path(conn, :show, portfolio.id))
     end
   end

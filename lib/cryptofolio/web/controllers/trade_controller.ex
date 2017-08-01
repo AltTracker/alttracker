@@ -3,15 +3,25 @@ defmodule Cryptofolio.Web.TradeController do
 
   alias Coherence.Config
   alias Cryptofolio.Dashboard
+  alias Cryptofolio.Dashboard.Portfolio
+  alias Cryptofolio.Dashboard.Trade
 
   import Canary.Plugs
 
-  plug :load_and_authorize_resource, model: Cryptofolio.Dashboard.Trade, only: [:new, :create, :show, :edit, :update, :delete]
+  plug :load_and_authorize_resource, model: Portfolio,
+        id_name: "portfolio_id",
+        only: [:new, :create],
+        persisted: true
+  plug :load_and_authorize_resource, model: Trade,
+        only: [:show, :edit, :update, :delete],
+        id_name: "id",
+        persisted: true,
+        preload: :portfolio
   plug Coherence.Authentication.Session, [protected: true] when action in [:toggle_privacy]
   use Cryptofolio.Web.AuthorizationController
 
   def new(conn, %{"portfolio_id" => id}) do
-    portfolio = Dashboard.get_portfolio(id)
+    portfolio = conn.assigns[:portfolio]
     btc_price = Dashboard.get_coin_price("BTC")
     total_cost_btc = Decimal.div(Decimal.new(1), btc_price)
     changeset = Dashboard.change_trade(%Cryptofolio.Dashboard.Trade{ amount: 1 }, %{ cost: 1, total_cost: 1, total_cost_btc: total_cost_btc })
@@ -25,7 +35,7 @@ defmodule Cryptofolio.Web.TradeController do
 
   def create(conn, %{"portfolio_id" => id, "trade" => trade_params}) do
     {id, _} = Integer.parse(id)
-    portfolio = Dashboard.get_portfolio(id)
+    portfolio = conn.assigns[:portfolio]
     case Dashboard.create_portfolio_trade(portfolio, trade_params) do
       {:ok, _trade} ->
         conn
@@ -40,7 +50,8 @@ defmodule Cryptofolio.Web.TradeController do
   end
 
   def show(conn, %{"id" => id}) do
-    trade = Dashboard.get_trade_with_currency!(id)
+    trade = Dashboard.get_with_currency! conn.assigns[:trade]
+    # Dashboard.get_trade_with_currency!(id)
     fiat_exchange = Dashboard.get_fiat_exchange(conn.assigns[:current_user])
 
     render(conn, "show.html", trade: trade, fiat: fiat_exchange)
@@ -48,12 +59,22 @@ defmodule Cryptofolio.Web.TradeController do
 
   def edit(conn, %{}) do
     trade = conn.assigns[:trade]
+    portfolio = trade.portfolio
+
     btc_price = Dashboard.get_coin_price("BTC")
     changeset = Dashboard.change_trade(trade)
+
     case Dashboard.list_currencies() do
       currencies ->
-        conn
-        |> render("edit.html", trade: trade, changeset: changeset, currencies: currencies, btc_price: btc_price)
+        attrs = [
+          portfolio: portfolio,
+          trade: trade,
+          changeset: changeset,
+          currencies: currencies,
+          btc_price: btc_price
+        ]
+
+        conn |> render("edit.html", attrs)
     end
   end
 
