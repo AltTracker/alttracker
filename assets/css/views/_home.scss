@@ -76,9 +76,24 @@ $landing--md: (
   }
 
   .landing-auth {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: scroll;
     @include grid-column(1, $landing);
     @include grid-media($landing--md) {
       @include grid-column(1);
+    }
+
+    &__body {
+      flex: 1 0 auto;
+    }
+
+    &__footer {
+      text-align: center;
+      p {
+        margin: 0;
+      }
     }
 
     padding: 4rem 3rem;
