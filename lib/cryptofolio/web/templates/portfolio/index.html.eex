@@ -2,6 +2,15 @@
 
 <div class="dashboard">
   <div class="dashboard-portfolios">
+    <%= if not @owned do %>
+      <h3>
+        <%=
+          link @portfolio.actual.name,
+          to: portfolio_path(@conn, :show, @portfolio.id),
+          class: "dashboard-portfolios__portfolio--active"
+        %>
+      </h3>
+    <%= end %>
     <%= for %{id: id, name: name} <- @portfolios do %>
       <h3>
         <%=
@@ -23,7 +32,9 @@
       </h3>
     <%= end %>
     <h3 style="margin-bottom: 0;">
-      <%= link "+ Add Portfolio", to: portfolio_path(@conn, :new), class: "button dashboard-portfolios__portfolio-new" %>
+      <%= if @owned do %>
+        <%= link "+ Add Portfolio", to: portfolio_path(@conn, :new), class: "button dashboard-portfolios__portfolio-new" %>
+      <%= end %>
     </h3>
   </div>
   <div class="dashboard-header">

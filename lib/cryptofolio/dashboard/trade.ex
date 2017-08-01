@@ -40,7 +40,7 @@ defmodule Cryptofolio.Dashboard.Trade do
   @derive {Poison.Encoder, except: [:__meta__, :__schema__, :portfolio]}
 
   schema "trades" do
-    belongs_to :portfolio, Cryptofolio.Portfolio
+    belongs_to :portfolio, Cryptofolio.Dashboard.Portfolio
     belongs_to :currency, Cryptofolio.Dashboard.Currency
 
     field :amount, :decimal
