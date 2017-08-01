@@ -1,3 +1,12 @@
+## 01-08-2017
+
+- Added 147 new Currencies
+
+### Web App
+
+- Add support for multiple portfolios
+- Switched servers (Big thanks [**LimeISP**](https://limeisp.com))
+
 ## 07-07-2017
 
 ### Added Currencies:
