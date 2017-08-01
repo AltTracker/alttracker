@@ -39,11 +39,13 @@ defmodule Cryptofolio.Dashboard do
     |> where(active: true)
     |> Repo.one
 
-    if is_nil(portfolio) do
-      {:ok, portfolio} = user
+    {:ok, portfolio} = if is_nil(portfolio) do
+      user
       |> Ecto.build_assoc(:portfolios)
       |> Portfolio.changeset(%{ name: "My Portfolio" })
       |> Repo.insert()
+    else
+      {:ok, portfolio}
     end
 
     %Portfolio{ portfolio | user: user }

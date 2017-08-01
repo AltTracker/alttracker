@@ -1,7 +1,6 @@
 defmodule Cryptofolio.Web.PortfolioController do
   use Cryptofolio.Web, :controller
 
-  alias Coherence.Config
   alias Cryptofolio.Dashboard
 
   import Canary.Plugs
@@ -93,7 +92,7 @@ defmodule Cryptofolio.Web.PortfolioController do
     portfolio = Dashboard.get_portfolio(id)
 
     case Dashboard.toggle_privacy(portfolio) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
         |> put_flash(:info, "Portfolio is now " <> Cryptofolio.Web.PortfolioView.privacy_text(portfolio))
         |> redirect(to: portfolio_path(conn, :show, portfolio.id))
