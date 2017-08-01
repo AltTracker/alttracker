@@ -20,7 +20,7 @@ defmodule Cryptofolio.Web.TradeController do
   plug Coherence.Authentication.Session, [protected: true] when action in [:toggle_privacy]
   use Cryptofolio.Web.AuthorizationController
 
-  def new(conn, %{"portfolio_id" => id}) do
+  def new(conn, %{"portfolio_id" => _id}) do
     portfolio = conn.assigns[:portfolio]
     btc_price = Dashboard.get_coin_price("BTC")
     total_cost_btc = Decimal.div(Decimal.new(1), btc_price)
@@ -49,9 +49,8 @@ defmodule Cryptofolio.Web.TradeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => _id}) do
     trade = Dashboard.get_with_currency! conn.assigns[:trade]
-    # Dashboard.get_trade_with_currency!(id)
     fiat_exchange = Dashboard.get_fiat_exchange(conn.assigns[:current_user])
 
     render(conn, "show.html", trade: trade, fiat: fiat_exchange)
@@ -103,7 +102,7 @@ defmodule Cryptofolio.Web.TradeController do
         apply(Config.auth_module, Config.update_login, [conn, user, [id_key: Config.schema_key]])
 
         conn
-        |> put_flash(:info, "Portfolio is now " <> Cryptofolio.Web.TradeView.privacy_text(user.private_portfolio))
+        |> put_flash(:info, "Portfolio is now " <> Cryptofolio.Web.PortfolioView.privacy_text(user.private_portfolio))
         |> redirect(to: portfolio_path(conn, :index))
     end
   end
