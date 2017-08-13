@@ -87,7 +87,7 @@ defmodule Cryptofolio.Web.PortfolioController do
     end
   end
 
-  def toggle_privacy(conn, %{ "portfolio_id" => id }) do
+  def toggle_privacy(conn, %{ "id" => id }) do
     {id, ""} = Integer.parse(id)
     portfolio = Dashboard.get_portfolio(id)
 
