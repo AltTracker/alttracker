@@ -116,7 +116,7 @@ defmodule Cryptofolio.Marketcap do
          {:ok, data} <- extract_coin_prices_from_api(json) do
       Enum.each(data, fn {k, v} ->
         ConCache.get_or_store(:marketcap, "coin:price##{k}", fn () ->
-          Decimal.div(Decimal.new(1), Decimal.new(v))
+          %ConCache.Item{ttl: :timer.minutes(5), value: Decimal.div(Decimal.new(1), Decimal.new(v))}
         end)
       end)
     else {_, error} ->
