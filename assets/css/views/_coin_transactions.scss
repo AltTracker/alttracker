@@ -246,3 +246,12 @@ $dashboard-header-grid--md: (
 .coin-transactions__empty {
   text-align: center;
 }
+
+input[type="text"].highcharts-range-selector {
+  background-color: white;
+  border-radius: 0;
+  box-sizing: content-box;
+  margin-bottom: inherit;
+  height: 100%;
+  width: 100%;
+}
