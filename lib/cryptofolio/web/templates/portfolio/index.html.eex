@@ -107,7 +107,7 @@ e     class="portfolio-pie"
       <td><%= format_money(coin_trades_cost(coin_trades), @fiat) %></td>
       <td><%= format_money(coin_trades_total_cost(coin_trades), @fiat) %></td>
       <td><%= format_money(List.first(coin_trades).currency.cost_usd, @fiat) %></td>
-      <td><%= format_money(List.first(coin_trades).current_value, @fiat) %></td>
+      <td><%= format_money(coin_trades_current_value(coin_trades), @fiat) %></td>
       <td>
         <span class="<%= class_for_value(coin_trades_profit_lost(coin_trades)) %>">
           <%= format_money(coin_trades_profit_lost(coin_trades), @fiat) %>

@@ -52,6 +52,10 @@ defmodule Cryptofolio.Web.PortfolioView do
     Enum.reduce(trades, Decimal.new(0), fn(trade, acc) -> Decimal.add(Trade.profit_loss(trade), acc) end)
   end
 
+  def coin_trades_current_value(trades) do
+    Decimal.mult(List.first(trades).currency.cost_usd, coin_trades_amount(trades))
+  end
+
   def coin_trades_profit_lost_perc(trades) do
     total_cost = coin_trades_total_cost(trades)
 
