@@ -14,7 +14,13 @@ defmodule Cryptofolio.Application do
       supervisor(Cryptofolio.Web.Endpoint, []),
       # Start your own worker by calling: Cryptofolio.Worker.start_link(arg1, arg2, arg3)
       # worker(Cryptofolio.Worker, [arg1, arg2, arg3]),
-      supervisor(ConCache, [[], [name: :marketcap]]),
+      supervisor(ConCache, [
+        [
+          ttl_check: :timer.seconds(30),
+          ttl: :timer.minutes(5)
+        ],
+        [name: :marketcap]
+      ]),
       worker(Cryptofolio.Marketcap, [])
     ]
 
