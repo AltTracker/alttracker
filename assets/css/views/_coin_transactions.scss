@@ -221,6 +221,11 @@ $dashboard-header-grid--md: (
 .coin-transactions-list {
   .coin-trades-summary {
     cursor: pointer;
+
+    &--error {
+      color: gray;
+      background-color: #ffe5e5;
+    }
   }
 
   .coin-trade {

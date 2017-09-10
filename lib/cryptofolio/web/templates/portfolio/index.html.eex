@@ -64,19 +64,20 @@
       <%= end %>
     </div>
   </div>
+  <% valid_trades = Trade.filter_valid(@portfolio.trades) %>
   <main class="dashboard__main">
     <div
       id="portfolio-chart"
       class="portfolio-chart"
-      data-currencies="<%= Poison.encode! @portfolio.currencies %>"
+      data-currencies="<%= Poison.encode! Enum.map(Trade.normalize_cost(valid_trades), &(&1.currency)) %>"
     >
     </div>
   </main>
   <section class="dashboard__sidebar">
     <div
       id="portfolio-pie"
-e     class="portfolio-pie"
-      data-trades="<%= Poison.encode! Trade.drop_ticks(@portfolio.trades) %>"
+      class="portfolio-pie"
+      data-trades="<%= Poison.encode! Trade.drop_ticks(Trade.normalize_cost(valid_trades)) %>"
     >
     </div>
   </section>
@@ -97,27 +98,41 @@ e     class="portfolio-pie"
   </thead>
   <tbody>
   <%= for {currency_id, coin_trades} <- group_coin_trades(@portfolio.trades) do %>
-    <tr class="coin-trades-summary" data-currency-id="<%= currency_id %>">
+    <% is_trade_valid = Trade.is_valid(List.first(coin_trades)) %>
+    <tr
+      class="coin-trades-summary <%= if not is_trade_valid, do: "coin-trades-summary--error" %>"
+      data-currency-id="<%= currency_id %>"
+    >
       <td>
         <%= img_tag "//cryptocompare.com" <> List.first(coin_trades).currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %>
         <%= name_with_symbol(List.first(coin_trades).currency) %>
         <small class="coin-transactions-list__item"><%= description_preview(List.first(coin_trades).description) %></small>
       </td>
-      <td><%= coin_trades_amount(coin_trades) %></td>
-      <td><%= format_money(coin_trades_cost(coin_trades), @fiat) %></td>
-      <td><%= format_money(coin_trades_total_cost(coin_trades), @fiat) %></td>
-      <td><%= format_money(List.first(coin_trades).currency.cost_usd, @fiat) %></td>
-      <td><%= format_money(List.first(coin_trades).current_value, @fiat) %></td>
-      <td>
-        <span class="<%= class_for_value(coin_trades_profit_lost(coin_trades)) %>">
-          <%= format_money(coin_trades_profit_lost(coin_trades), @fiat) %>
-        </span>
-      </td>
-      <td>
-        <span class="<%= class_for_value(coin_trades_profit_lost_perc(coin_trades)) %>">
-          <%= Decimal.round(coin_trades_profit_lost_perc(coin_trades), 1) %>%
-        </span>
-      </td>
+      <%= if is_trade_valid do %>
+        <td><%= coin_trades_amount(coin_trades) %></td>
+        <td><%= format_money(coin_trades_cost(coin_trades), @fiat) %></td>
+        <td><%= format_money(coin_trades_total_cost(coin_trades), @fiat) %></td>
+        <td><%= format_money(Kernel.elem(List.first(coin_trades).currency.cost_usd, 1), @fiat) %></td>
+        <td><%= format_money(List.first(coin_trades).current_value, @fiat) %></td>
+        <td>
+          <span class="<%= class_for_value(coin_trades_profit_lost(coin_trades)) %>">
+            <%= format_money(coin_trades_profit_lost(coin_trades), @fiat) %>
+          </span>
+        </td>
+        <td>
+          <span class="<%= class_for_value(coin_trades_profit_lost_perc(coin_trades)) %>">
+            <%= Decimal.round(coin_trades_profit_lost_perc(coin_trades), 1) %>%
+          </span>
+        </td>
+      <%= else %>
+        <td>Could not find valid tick data</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      <% end %>
     </tr>
     <%= for coin_trade <- coin_trades do %>
       <tr class="coin-trade coin-trade-<%= currency_id %>" <%= if @owned, do: "data-bind-link=#{portfolio_trade_path(@conn, :show, @portfolio.id, coin_trade.id)}" %>>
@@ -157,7 +172,11 @@ e     class="portfolio-pie"
   </thead>
   <tbody>
     <%= for {currency_id, coin_trades} <- group_coin_trades(@portfolio.trades) do %>
-      <tr class="coin-trades-summary" data-currency-id="<%= currency_id %>">
+      <% is_trade_valid = Trade.is_valid(List.first(coin_trades)) %>
+      <tr
+        class="coin-trades-summary <%= if not is_trade_valid, do: "coin-trades-summary--error" %>"
+        data-currency-id="<%= currency_id %>"
+      >
         <td>
           <div><%= img_tag "//cryptocompare.com" <> List.first(coin_trades).currency.cryptocompare_image_url, class: "coin-transactions-list__currency-icon" %></div>
           <%= List.first(coin_trades).currency.symbol %>

@@ -1,4 +1,16 @@
 defmodule Cryptofolio.Trade do
+  def filter_valid(trades) do
+    Enum.filter(trades, fn(trade) -> Kernel.elem(trade.currency.cost_usd, 0) === :ok end)
+  end
+
+  def is_valid(trade) do
+    Kernel.elem(trade.currency.cost_usd, 0) === :ok
+  end
+
+  def normalize_cost(trades) do
+    Enum.map(trades, fn (trade) -> %{ trade | currency: %{ trade.currency | cost_usd: Kernel.elem(trade.currency.cost_usd, 0) } } end)
+  end
+
   def drop_ticks(trades) when is_list(trades) do
     # XXX: There ought to be a way for Poison to encode
     # conditionally (ticks needed in pie chart, not needed in line chart)
@@ -25,7 +37,10 @@ defmodule Cryptofolio.Trade do
   end
 
   def current_value(%{ amount: amount, currency: %{ cost_usd: cost_usd } }) do
-    Decimal.mult(amount, cost_usd)
+    case cost_usd do
+      {:ok, value} -> Decimal.mult(amount, value)
+      _ -> Decimal.new(0)
+    end
   end
 
   def current_value(%{ current_value: current_value }) do
