@@ -19,6 +19,6 @@
   </div>
 
   <div class="form-group">
-    <%= submit dgettext("coherence", "Update Password"), class: "button button--full-width" %>
+    <%= submit dgettext("coherence", "Update Password"), autocomplete: "new-password", class: "button button--full-width" %>
   </div>
 <% end %>

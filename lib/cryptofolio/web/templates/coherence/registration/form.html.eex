@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, [as: :registration], fn f  -> %>
+<%= form_for @changeset, @action, [as: :registration, autocomplete: "on"], fn f  -> %>
 
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
@@ -29,20 +29,20 @@
   <%= if Coherence.Config.require_current_password and not is_nil(@changeset.data.id) do %>
     <div class="form-group">
       <%= required_label f, :current_password, class: "control-label" %>
-      <%= password_input f, :current_password, [class: "form-control"] ++ @required %>
+      <%= password_input f, :current_password, [autocomplete: "on", class: "form-control"] ++ @required %>
       <%= error_tag f, :current_password %>
     </div>
   <% end %>
 
   <div class="form-group">
     <%= required_label f, dgettext("coherence", "Password"), class: "control-label" %>
-    <%= password_input f, :password, [class: "form-control"] ++ @required %>
+    <%= password_input f, :password, [autocomplete: "new-password", class: "form-control"] ++ @required %>
     <%= error_tag f, :password %>
   </div>
 
   <div class="form-group">
     <%= required_label f, dgettext("coherence", "Password Confirmation"), class: "control-label" %>
-    <%= password_input f, :password_confirmation, [class: "form-control"] ++ @required %>
+    <%= password_input f, :password_confirmation, [autocomplete: "new-password", class: "form-control"] ++ @required %>
     <%= error_tag f, :password_confirmation %>
   </div>
 

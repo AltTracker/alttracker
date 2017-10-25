@@ -2,11 +2,11 @@
 
 <h3><%= dgettext "coherence", "Send reset password link" %></h3>
 
-<%= form_for @changeset, password_path(@conn, :create), [as: :password], fn f  -> %>
+<%= form_for @changeset, password_path(@conn, :create), [as: :password, autocomplete: "on"], fn f  -> %>
 
   <div class="form-group">
     <%= required_label f, :email, class: "control-label" %>
-    <%= text_input f, :email, class: "form-control", required: "" %>
+    <%= text_input f, :email, autocomplete: "on", class: "form-control", required: "" %>
     <%= error_tag f, :email %>
   </div>
 

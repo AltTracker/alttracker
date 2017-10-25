@@ -1,18 +1,18 @@
 <br \>
 
-<%= form_for @conn, session_path(@conn, :create), [as: :session], fn f  -> %>
+<%= form_for @conn, session_path(@conn, :create), [as: :session, autocomplete: "on"], fn f  -> %>
   <img src="/android-chrome-192x192.png" alt="Alt Tracker Logo" class="main-logo" />
 
   <% login_field = Coherence.Config.login_field %>
   <div class="form-group">
     <%= required_label f, login_field, class: "control-label" %>
-    <%= text_input f, login_field, class: "form-control", required: "" %>
+    <%= text_input f, login_field, type: "email", autocomplete: "on", class: "form-control", required: "" %>
     <%= error_tag f, login_field %>
   </div>
 
   <div class="form-group">
     <%= required_label f, dgettext("coherence", "Password"), class: "control-label" %>
-    <%= password_input f, :password, class: "form-control", required: "" %>
+    <%= password_input f, :password, autocomplete: "current-password", class: "form-control", required: "" %>
     <%= error_tag f, :password %>
   </div>
 
