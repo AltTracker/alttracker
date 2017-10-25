@@ -22,7 +22,10 @@ defmodule Cryptofolio.Web.TradeController do
 
   def new(conn, %{"portfolio_id" => _id}) do
     portfolio = conn.assigns[:portfolio]
-    btc_price = Dashboard.get_coin_price("BTC")
+    btc_price = case Dashboard.get_coin_price("BTC") do
+      {:ok, price } -> price
+      _ -> 1
+    end
     total_cost_btc = Decimal.div(Decimal.new(1), btc_price)
     changeset = Dashboard.change_trade(%Cryptofolio.Dashboard.Trade{ amount: 1 }, %{ cost: 1, total_cost: 1, total_cost_btc: total_cost_btc })
 
