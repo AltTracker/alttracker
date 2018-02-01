@@ -51,10 +51,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :cryptofolio, Cryptofolio.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
+  username: "username",
   password: "password",
   database: "cryptofolio_dev",
   hostname: "localhost",
   pool_size: 10
-
-import_config "dev.secret.exs"
