@@ -37,4 +37,4 @@ $ mix ecto.migrate
 $ mix phx.server
 ```
 
-You should now have the application running on port `4000`: _localhost:4000
+You should now have the application running on port `4000`: _localhost:4000_
